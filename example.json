@@ -1,0 +1,130 @@
+{
+    "info": {
+      "title": "CabinetKey",
+      "subTitle": "캐비닛키",
+      "summary": "",
+      "description": "마크다운과 개행을 지원하는 긴 소개글",
+      "yearRange": [
+        0,
+        100
+      ],
+      "mainYear": [
+        0
+      ],
+      "startYear": 0,
+      "map": "https://peachtart2.s3.ap-northeast-1.amazonaws.com/tart/c973e2de-8986-4fcd-8f0e-c4ab74ac7d67.webp",
+      "mainHashtag": "CabinetKey",
+      "hashtags": [
+        "CabinetKey"
+      ]
+    },
+    "character": {
+      "category": [
+        ""
+      ],
+      "list": [
+        {
+          "avatar": "https://peachtart2.s3.ap-northeast-1.amazonaws.com/tart/6f0f78c1-bd3f-4732-9c62-15ae451c2257.png",
+          "name": "캐릭터 1",
+          "meaning": "",
+          "nickname": {
+            "별명": "",
+            "애칭": ""
+          },
+          "birthday": "undefined",
+          "lived": [
+            "0",
+            "50"
+          ],
+          "category": "0",
+          "subCategory": "",
+          "eventChronology": {
+            "0.0": ""
+          },
+          "positionChronology": {
+            "0.0": ""
+          },
+          "relatedTo": {
+            "분류1": [
+              "0"
+            ],
+            "분류2": [
+              "0"
+            ]
+          },
+          "goal": [
+            "",
+            ""
+          ],
+          "themeSong": [
+            "0"
+          ],
+          "summary": "짧은 요약",
+          "description": "마크다운과 개행을 지원하는 긴 소개글",
+          "secret": "",
+          "hashtag": "캐비닛키"
+        }
+      ]
+    },
+    "world": {
+      "0,0": {
+        "0,50": {
+          "name": "장소 1(이전 지명)",
+          "image": "",
+          "summary": "간단 요약",
+          "description": "마크다운과 개행을 지원하는 긴 소개글",
+          "eventChronology": {
+            "0": ""
+          },
+          "relatedTo": {
+            "분류1": [
+              0
+            ]
+          }
+        },
+        "50,100": {
+          "name": "장소 1(변경된 지명)",
+          "image": "",
+          "summary": "간단 요약",
+          "description": "마크다운과 개행을 지원하는 긴 소개글",
+          "eventChronology": {
+            "50": ""
+          },
+          "relatedTo": {
+            "분류1": [
+              0
+            ]
+          }
+        }
+      },
+      "9,9": {
+        "0,100": {
+          "name": "장소 2",
+          "image": "",
+          "summary": "간단 요약",
+          "description": "마크다운과 개행을 지원하는 긴 소개글",
+          "eventChronology": {
+            "0": ""
+          },
+          "relatedTo": {
+            "분류1": [
+              0
+            ]
+          }
+        }
+      }
+    },
+    "themeSong": [
+      {
+        "embed": "",
+        "title": "테마곡 1",
+        "artist": "Various Artist",
+        "relatedTo": [
+          0
+        ],
+        "summary": "간단 요약",
+        "description": "마크다운과 개행을 지원하는 긴 소개글",
+        "lyrics": "마크다운과 개행을 지원하는 가사란"
+      }
+    ]
+  }
