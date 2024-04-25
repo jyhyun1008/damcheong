@@ -772,7 +772,7 @@ async function parseYourJSON(json) {
                     "mainHashtag": cMainHashtag,
                     "hashtags": cHashtag,
                     "defaultYear": cDefaultYear,
-                    "MainYear": cMainYear,
+                    "mainYear": cMainYear,
                     "yearRange": cYearRange,
                     "map": cAvatar,
                     "summary": cSummary,
@@ -946,7 +946,7 @@ async function parseYourJSON(json) {
                         body: JSON.stringify({
                             i: token,
                             cw: cTitle,
-                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType,
+                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
                             visibility: cVisibility,
                             localOnly: cLocalOnly,
                             fileIds: cFile
@@ -961,7 +961,7 @@ async function parseYourJSON(json) {
                         body: JSON.stringify({
                             i: token,
                             cw: cTitle,
-                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType,
+                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
                             visibility: cVisibility,
                             localOnly: cLocalOnly,
                         })
@@ -2225,7 +2225,7 @@ async function parseYourJSON(json) {
                             body: JSON.stringify({
                                 i: token,
                                 cw: cTitle,
-                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType,
+                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
                                 visibility: cVisibility,
                                 localOnly: cLocalOnly,
                                 fileIds: cFile
@@ -2240,7 +2240,7 @@ async function parseYourJSON(json) {
                             body: JSON.stringify({
                                 i: token,
                                 cw: cTitle,
-                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType,
+                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
                                 visibility: cVisibility,
                                 localOnly: cLocalOnly,
                             })
