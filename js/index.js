@@ -155,13 +155,17 @@ function parseMd(md){
 
     md = md.replace(/\/g, '')
 
+    md = md.replace(/\-\-\-/gm, 'ーーー')
+
     //checkbox
     md = md.replace(/\-\s\[x\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox-square" ></i>$1</div>')
     md = md.replace(/\-\s\[\s\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox" ></i>$1</div>')
   
+    console.log(md)
+
     //ul
     md = md.replace(/^\s*\n\*\s/gm, '<ul>\n* ');
-    md = md.replace(/\*\s([^\*]+)\n\n/gm, '* $1\n</ul>\n\n');
+    md = md.replace(/\n\*\s(.+)\n\n/gm, '\n* $1\n</ul>\n\n');
     md = md.replace(/^\*\s(.+)/gm, '<li>$1</li>');
     while (md.includes('  * ')) {
         md = md.replace(/\<\/li\>\n\s\s\*\s/gm, '</li>\n<ul>\n  * ')
@@ -194,7 +198,7 @@ function parseMd(md){
     md = md.replace(/\<\/blockquote\>\<blockquote\>/gm, '\n\n');
     md = md.replace(/\<\/blockquote>\n<blockquote\>/gm, '\n\n');
 
-    md = md.replace(/\-\-\-/gm, 'ーーー')
+    console.log(md)
     
     //h
     md = md.replace(/\n[\#]{6}\s(.+)/g, '<h6>$1</h6>');
