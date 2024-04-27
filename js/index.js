@@ -1411,7 +1411,7 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventsLabel'+temporaryEventCount+'" id="cEventsLabel'+temporaryEventCount+'" value="0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
@@ -1767,7 +1767,7 @@ async function parseYourJSON(json) {
 
                 //포지션 이벤트리스너
                 document.querySelector('#addPosition').addEventListener("click", (e) => {
-                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionsEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionsLabel'+temporaryPositionCount+'" id="cPositionsLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPositions'+temporaryPositionCount+'" id="cPositions'+temporaryPositionCount+'"></div>'
+                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionsEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPositions'+temporaryPositionCount+'" id="cPositions'+temporaryPositionCount+'"></div>'
                     temporaryPositionCount += 1
                 })
                 document.querySelector('#deletePosition').addEventListener("click", (e) => {
@@ -1779,7 +1779,7 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventsLabel'+temporaryEventCount+'" id="cEventsLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
