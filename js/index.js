@@ -662,8 +662,7 @@ function loadBackground(json) {
         for (var i = 0; i < json.character.category.length; i++) {
             var count = document.querySelectorAll('#list'+i+' .characteritem').length
             if (count % 3 == 1) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             } else if (count % 3 == 2) {
                 document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             }
@@ -679,10 +678,10 @@ function loadBackground(json) {
         for (var i = 0; i < json.character.category.length; i++) {
             var count = document.querySelectorAll('#list'+i+' .characteritem').length
             if (count % 3 == 1) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             } else if (count % 3 == 2) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             }
         }
     }
