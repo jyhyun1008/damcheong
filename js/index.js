@@ -1421,13 +1421,12 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    console.log(temporaryEventKeyArray, temporaryEventValueArray)
                     document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
-                        addTemporaryValues('#cEvent',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventValueArray)
                     }
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
@@ -1438,7 +1437,7 @@ async function parseYourJSON(json) {
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
-                        addTemporaryValues('#cEvent',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventValueArray)
                     }
                 })
 
@@ -1693,8 +1692,11 @@ async function parseYourJSON(json) {
                 //포지션 (input 지옥)
                 var position = Object.keys(cList[page].positionChronology)
                 var temporaryPositionCount = position.length
+                var temporaryPositionKeyArray = position
+                var temporaryPositionValueArray = []
                 for (var i=0; i<position.length; i++) {
-                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionEditor'+i+'"><input class="key position" id="cPositionLabel'+i+'" name="cPositionLabel'+i+'" value="'+position[i]+'"> <input type="text" id="cPosition'+i+'" name="cPosition'+i+'" value="'+cList[page].positionChronology[position[i]]+'"></div>'
+                    temporaryPositionValueArray[i] = cList[page].positionChronology[temporaryPositionKeyArray[i]]
+                    document.querySelector('#position').innerHTML += '<div class="multiLinePositionInput" id="cPositionEditor'+i+'"><input class="key position" id="cPositionLabel'+i+'" name="cPositionLabel'+i+'" value="'+temporaryPositionKeyArray[i]+'"> <input type="text" id="cPosition'+i+'" name="cPosition'+i+'" value="'+temporaryPositionValueArray[i]+'"></div>'
                 }
 
                 //사건 (틀 생성)
@@ -1703,8 +1705,11 @@ async function parseYourJSON(json) {
                 //사건 (input 지옥)
                 var event = Object.keys(cList[page].eventChronology)
                 var temporaryEventCount = event.length
+                var temporaryEventKeyArray = event
+                var temporaryEventValueArray = []
                 for (var i=0; i<event.length; i++) {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+event[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+cList[page].eventChronology[event[i]]+'"></div>'
+                    temporaryEventValueArray[i] = cList[page].eventChronology[temporaryEventKeyArray[i]]
+                    document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+temporaryEventKeyArray[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
                 }
 
                 //요약
@@ -1727,7 +1732,7 @@ async function parseYourJSON(json) {
 
                     temporaryRelatedToCharacterCount.push(cList[page].relatedTo[relatedToKey[i]].length)
                     for (var l=0; l<cList[page].relatedTo[relatedToKey[i]].length; l++) {
-                        document.querySelector('#relatedTo'+i).innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+i+'-'+l+'"><label id="cRelatedToLabel'+i+'-'+l+'" for="cRelatedTo'+i+'-'+l+'">'+(l+1)+' :</label> <select name="cRelatedTo'+i+'-'+l+'" id="cRelatedTo'+i+'-'+l+'"></select></div>'
+                        document.querySelector('#relatedTo'+i).innerHTML += '<div class="multiLineRelatedToInput" id="cRelatedToEditor'+i+'-'+l+'"><label id="cRelatedToLabel'+i+'-'+l+'" for="cRelatedTo'+i+'-'+l+'">'+(l+1)+' :</label> <select name="cRelatedTo'+i+'-'+l+'" id="cRelatedTo'+i+'-'+l+'"></select></div>'
                         for (var j=0; j<json.character.list.length; j++) {
                             if (cList[page].relatedTo[relatedToKey[l]] == j) {
                                 document.querySelector('#cRelatedTo'+i+'-'+l).innerHTML += '<option value="'+j+'" selected>'+json.character.list[j].name+'</option>'
@@ -1748,7 +1753,7 @@ async function parseYourJSON(json) {
 
                 //테마송 이벤트리스너
                 document.querySelector('#addThemeSong').addEventListener("click", (e) => {
-                    document.querySelector('#themeSong').innerHTML += '<div class="multiLineInput" id="cThemesongEditor'+temporaryThemeSongCount+'"><label id="cThemesongLabel'+temporaryThemeSongCount+'" for="cThemesong'+temporaryThemeSongCount+'">'+(temporaryThemeSongCount+1)+' :</label> <select name="cThemesong'+temporaryThemeSongCount+'" id="cThemesong'+temporaryThemeSongCount+'"></select></div>'
+                    document.querySelector('#themeSong').innerHTML += '<div class="multiLineThemeSongInput" id="cThemesongEditor'+temporaryThemeSongCount+'"><label id="cThemesongLabel'+temporaryThemeSongCount+'" for="cThemesong'+temporaryThemeSongCount+'">'+(temporaryThemeSongCount+1)+' :</label> <select name="cThemesong'+temporaryThemeSongCount+'" id="cThemesong'+temporaryThemeSongCount+'"></select></div>'
                     for (var j=0; j<json.themeSong.length; j++) {
                         document.querySelector('#cThemesong'+temporaryThemeSongCount).innerHTML += '<option value="'+j+'">'+json.themeSong[j].title+'</option>'
                     }
@@ -1763,7 +1768,7 @@ async function parseYourJSON(json) {
 
                 //다른 이름들 이벤트리스너
                 document.querySelector('#addNickname').addEventListener("click", (e) => {
-                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineInput" id="cNicknamesEditor'+temporaryNicknameCount+'"><input class="key nicknames" name="cNicknamesLabel'+temporaryNicknameCount+'" id="cNicknamesLabel'+temporaryNicknameCount+'" value="'+(temporaryNicknameCount+1)+'"> <input name="cNicknames'+temporaryNicknameCount+'" id="cNicknames'+temporaryNicknameCount+'"></div>'
+                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+temporaryNicknameCount+'"><input class="key nicknames" name="cNicknamesLabel'+temporaryNicknameCount+'" id="cNicknamesLabel'+temporaryNicknameCount+'" value="'+(temporaryNicknameCount+1)+'"> <input name="cNicknames'+temporaryNicknameCount+'" id="cNicknames'+temporaryNicknameCount+'"></div>'
                     temporaryNicknameCount += 1
                 })
                 document.querySelector('#deleteNickname').addEventListener("click", (e) => {
@@ -1788,8 +1793,13 @@ async function parseYourJSON(json) {
 
                 //포지션 이벤트리스너
                 document.querySelector('#addPosition').addEventListener("click", (e) => {
-                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPosition'+temporaryPositionCount+'" id="cPosition'+temporaryPositionCount+'"></div>'
+                    document.querySelector('#position').innerHTML += '<div class="multiLinePositionInput" id="cPositionEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPosition'+temporaryPositionCount+'" id="cPosition'+temporaryPositionCount+'"></div>'
                     temporaryPositionCount += 1
+
+                    for (var i=0; i<document.querySelectorAll('.multiLinePositionInput').length; i++) {
+                        addTemporaryValues('#cPositionLabel',i, temporaryPositionKeyArray)
+                        addTemporaryValues('#cPosition',i, temporaryPositionValueArray)
+                    }
                 })
                 document.querySelector('#deletePosition').addEventListener("click", (e) => {
                     if (temporaryPositionCount > 0) {
@@ -1800,13 +1810,23 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                        addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventValueArray)
+                    }
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
                     if (temporaryEventCount > 0) {
                         temporaryEventCount -= 1
                         document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
+                    }
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                        addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventValueArray)
                     }
                 })
 
