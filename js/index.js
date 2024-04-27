@@ -1117,33 +1117,33 @@ async function parseYourJSON(json) {
                     })
                 }
             }
-        }
-        fetch(findArtsUrl, findArtsParam)
-        .then((notesData) => {return notesData.json()})
-        .then((notesRes) => {
+            fetch(findArtsUrl, findArtsParam)
+            .then((notesData) => {return notesData.json()})
+            .then((notesRes) => {
 
-            if (notesRes.length == 100) {
-                untilId.l = notesRes[99].id
-                document.querySelector('.collectionqid').innerHTML = '<span class="bold" onclick="findNoteAgain(`'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK+'`,`'+untilId.l+'`,document.querySelector(`.collectionlist`),document.querySelector(`.collectionqid`),`'+MISSKEYID+'`);">더 불러오기</span>'
-            } else {
-                document.querySelector('.collectionqid').innerHTML = '<span class="bold">마지막입니다</span>'
-            }
-
-            if (isLogin) {
-                document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
-            }
-
-            for (var i = 0; i<notesRes.length; i++){
-
-                if (notesRes[i].files.length == 0) {
-                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
-                    if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
-                    document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                if (notesRes.length == 100) {
+                    untilId.l = notesRes[99].id
+                    document.querySelector('.collectionqid').innerHTML = '<span class="bold" onclick="findNoteAgain(`'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK+'`,`'+untilId.l+'`,document.querySelector(`.collectionlist`),document.querySelector(`.collectionqid`),`'+MISSKEYID+'`);">더 불러오기</span>'
                 } else {
-                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                    document.querySelector('.collectionqid').innerHTML = '<span class="bold">마지막입니다</span>'
                 }
-            }
-        })
+
+                if (isLogin) {
+                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
+                }
+
+                for (var i = 0; i<notesRes.length; i++){
+
+                    if (notesRes[i].files.length == 0) {
+                        document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                        if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
+                        document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                    } else {
+                        document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                    }
+                }
+            })
+        }
     } else if (page == 'reference') {
         loadBackground(json)
         document.querySelector('#wrapper').addEventListener("click", (e) => {
