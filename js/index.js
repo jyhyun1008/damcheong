@@ -1366,8 +1366,11 @@ async function parseYourJSON(json) {
                 //사건 (input 지옥)
                 var event = Object.keys(worldPage.data.eventChronology)
                 var temporaryEventCount = event.length
+                var temporaryEventKeyArray = event
+                var temporaryEventValueArray = []
                 for (var i=0; i<event.length; i++) {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+event[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+worldPage.data.eventChronology[event[i]]+'"></div>'
+                    temporaryEventValueArray[i] = worldPage.data.eventChronology[temporaryEventKeyArray[i]]
+                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+temporaryEventKeyArray[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
                 }
 
                 //요약
