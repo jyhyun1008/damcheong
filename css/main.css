@@ -81,7 +81,7 @@ body {
 
 #world-box {
     margin: 120px auto 30px auto;
-    max-height: calc(100dvh - 130px);
+    max-height: calc(100dvh - 150px);
     /*max-width: calc(100dvh - 150px);*/
     width: 100%;
     display: flex;
@@ -92,6 +92,10 @@ body {
 #world-content, #character-content {
     flex-grow: 1;
     padding: 10px;
+}
+
+#character-content {
+    overflow-y: scroll;
 }
 
 #world-content {
