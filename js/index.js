@@ -1420,6 +1420,10 @@ async function parseYourJSON(json) {
                 })
 
                 //사건 이벤트리스너
+                for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                    addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                    addTemporaryValues('#cEvent',i, temporaryEventValueArray)
+                }
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
                     document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
@@ -1773,6 +1777,9 @@ async function parseYourJSON(json) {
                 })
 
                 //다른 이름들 이벤트리스너
+                for (var i=0; i<document.querySelectorAll('.multiLineNicknameInput').length; i++) {
+                    addTemporaryValues('#cNickname',i, temporaryNicknameValueArray)
+                }
                 document.querySelector('#addNickname').addEventListener("click", (e) => {
                     document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+temporaryNicknameCount+'"><input class="key nicknames" name="cNicknamesLabel'+temporaryNicknameCount+'" id="cNicknamesLabel'+temporaryNicknameCount+'" value="'+(temporaryNicknameCount+1)+'"> <input name="cNicknames'+temporaryNicknameCount+'" id="cNicknames'+temporaryNicknameCount+'"></div>'
                     temporaryNicknameCount += 1
@@ -1819,6 +1826,10 @@ async function parseYourJSON(json) {
                 })
 
                 //포지션 이벤트리스너
+                for (var i=0; i<document.querySelectorAll('.multiLinePositionInput').length; i++) {
+                    addTemporaryValues('#cPositionLabel',i, temporaryPositionKeyArray)
+                    addTemporaryValues('#cPosition',i, temporaryPositionValueArray)
+                }
                 document.querySelector('#addPosition').addEventListener("click", (e) => {
                     document.querySelector('#position').innerHTML += '<div class="multiLinePositionInput" id="cPositionEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPosition'+temporaryPositionCount+'" id="cPosition'+temporaryPositionCount+'"></div>'
                     temporaryPositionCount += 1
@@ -1836,6 +1847,10 @@ async function parseYourJSON(json) {
                 })
 
                 //사건 이벤트리스너
+                for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                    addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                    addTemporaryValues('#cEvent',i, temporaryEventValueArray)
+                }
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
                     document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
