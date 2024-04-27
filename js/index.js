@@ -2105,10 +2105,6 @@ async function parseYourJSON(json) {
                             document.querySelector('.collectionworkqid').innerHTML = '<span class="bold">마지막입니다</span>'
                         }
             
-                        if (isLogin) {
-                            document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
-                        }
-            
                         for (var i = 0; i<notesRes.length; i++){
             
                             if (notesRes[i].files.length == 0) {
