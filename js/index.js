@@ -1655,7 +1655,7 @@ async function parseYourJSON(json) {
                 var temporaryNicknameValueArray = []
                 for (var i=0; i<nicknames.length; i++) {
                     temporaryNicknameValueArray[i] = cList[page].nickname[nicknames[i]]
-                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+i+'"><input class="key nicknames" id="cNicknamesLabel'+i+'" name="cNicknamesLabel'+i+'" value="'+temporaryNicknameKeyArray[i]+'"> <input type="text" class="val nicknames" id="cNicknames'+i+'" name="cNicknames'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
+                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+i+'"><input class="key nicknames" id="cNicknamesLabel'+i+'" name="cNicknamesLabel'+i+'" value="'+temporaryNicknameKeyArray[i]+'"> <input type="text" class="val nicknames" id="cNicknames'+i+'" name="cNicknames'+i+'" value="'+temporaryNicknameValueArray[i]+'"></div>'
                 }
 
                 //분류
