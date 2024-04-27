@@ -1236,6 +1236,7 @@ async function parseYourJSON(json) {
                 document.querySelector('#confirm').addEventListener("click", (e) => {
 
                     var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
+                    var cArtist = document.querySelector('#cArtist').value.replace(/\/g, '').replace(/\"/g, "'")
                     var cEmbed = document.querySelector('#cEmbed').value.replace(/\/g, '').replace(/\"/g, "'")
                     var cRelatedTo = []
                     for (var j=0; j < document.querySelectorAll('#relatedTo').length; j++) {
@@ -1247,6 +1248,7 @@ async function parseYourJSON(json) {
                     
                     var updatedJsonSongInfo = {
                         "title": cTitle,
+                        "artist": cArtist,
                         "embed": cEmbed,
                         "relatedTo": cRelatedTo,
                         "summary": cSummary,
