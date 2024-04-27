@@ -569,6 +569,15 @@ select {
     display: none;
 }
 
+.referenceItem {
+    margin: 20px 0;
+}
+
+.referenceItem .bold {
+    width: 100%;
+    text-align: left;
+}
+
 @media only screen and (max-width: 1000px) {
     #title-box {    
         height: 70px;
