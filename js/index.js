@@ -1972,7 +1972,7 @@ async function parseYourJSON(json) {
                     }
                 }
     
-                var workHashTagQuery = [[cList[page].hashtag, json.info.mainHashtag, LANG.FINISHEDWORK]]
+                var workHashTagQuery = [[LANG.FINISHEDWORK, json.info.mainHashtag, cList[page].hashtag]]
                 if (workHashTagQuery[0][0] != '') {
                     document.querySelector('#collectiontitle').innerHTML = '<h1>관련 작품 모음</h1>'
                     document.querySelector('#worktitle').innerHTML = '<h2>'+LANG.FINISHEDWORK+'</h2>'
@@ -2022,7 +2022,7 @@ async function parseYourJSON(json) {
                         }
                     })
     
-                    var draftHashTagQuery = [[cList[page].hashtag, json.info.mainHashtag, LANG.DRAFT]]
+                    var draftHashTagQuery = [[LANG.DRAFT, json.info.mainHashtag, cList[page].hashtag]]
                     var findDraftsUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
                     var findDraftsParam
                     if (!draftqid || draftqid == 0 ) {
