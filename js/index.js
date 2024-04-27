@@ -160,8 +160,6 @@ function parseMd(md){
     //checkbox
     md = md.replace(/\-\s\[x\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox-square" ></i>$1</div>')
     md = md.replace(/\-\s\[\s\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox" ></i>$1</div>')
-  
-    console.log(md)
 
     //ul
     md = md.replace(/^\s*\n\*\s/gm, '<ul>\n* ');
@@ -197,8 +195,6 @@ function parseMd(md){
     md = md.replace(/^\>\s(.+)/gm, '<blockquote>$1</blockquote>');
     md = md.replace(/\<\/blockquote\>\<blockquote\>/gm, '\n\n');
     md = md.replace(/\<\/blockquote>\n<blockquote\>/gm, '\n\n');
-
-    console.log(md)
     
     //h
     md = md.replace(/\n[\#]{6}\s(.+)/g, '<h6>$1</h6>');
@@ -535,8 +531,6 @@ function changeArrayParam(query, limit, untilId='') {
 
 
 async function fetchAgain(qid, hashtag, MISSKEYID = '') {
-
-    console.log(MISSKEYID)
 
     if (MISSKEYID == '') {
 
@@ -977,10 +971,13 @@ async function parseYourJSON(json) {
                     .then((imgRes) => {
                         document.querySelector('#imgUpload').innerText = imgRes.id
                         document.querySelector('#imgUpload').classList.add('imgUploaded')
+                        document.querySelector('#imgUpload').setAttribute("onclick", "deleteFile(this);")
                         document.querySelector('#imgUpload').id = 'imgUploaded'+fileCount.l
                         fileCount.l += 1
 
                         document.querySelector('#imgUploader').innerHTML += '<div id="imgUploadFrame'+fileCount.l+'" onclick="deleteFile(this);" ><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div>'
+
+                        document.querySelector('#imgUpload').addEventListener('click', () => imgRealUpload.click())
                     })
                     .catch(err => {throw err});
                     
@@ -2258,10 +2255,13 @@ async function parseYourJSON(json) {
                         .then((imgRes) => {
                             document.querySelector('#imgUpload').innerText = imgRes.id
                             document.querySelector('#imgUpload').classList.add('imgUploaded')
+                            document.querySelector('#imgUpload').setAttribute("onclick", "deleteFile(this);")
                             document.querySelector('#imgUpload').id = 'imgUploaded'+fileCount.l
                             fileCount.l += 1
 
                             document.querySelector('#imgUploader').innerHTML += '<div id="imgUploadFrame'+fileCount.l+'" onclick="deleteFile(this);"><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div>'
+
+                            document.querySelector('#imgUpload').addEventListener('click', () => imgRealUpload.click())
                         })
                         .catch(err => {throw err});
                         
