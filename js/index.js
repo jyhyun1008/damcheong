@@ -662,9 +662,9 @@ function loadBackground(json) {
         for (var i = 0; i < json.character.category.length; i++) {
             var count = document.querySelectorAll('#list'+i+' .characteritem').length
             if (count % 3 == 1) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             } else if (count % 3 == 2) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             }
         }
     } else {
@@ -678,10 +678,10 @@ function loadBackground(json) {
         for (var i = 0; i < json.character.category.length; i++) {
             var count = document.querySelectorAll('#list'+i+' .characteritem').length
             if (count % 3 == 1) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             } else if (count % 3 == 2) {
-                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
             }
         }
     }
@@ -1564,7 +1564,7 @@ async function parseYourJSON(json) {
                     if (count % 3 == 1) {
                         document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
                     } else if (count % 3 == 2) {
-                        document.querySelector('#relatedlist'+i).innerHTML += '<div class="characteritem" style="aspect-ratio: 1 / 1;"></div>'
+                        document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
                     }
                 }
 
@@ -2060,7 +2060,7 @@ async function parseYourJSON(json) {
                     if (count % 3 == 1) {
                         document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
                     } else if (count % 3 == 2) {
-                        document.querySelector('#relatedlist'+i).innerHTML += '<div class="characteritem" style="aspect-ratio: 1 / 1;"></div>'
+                        document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
                     }
                 }
     
