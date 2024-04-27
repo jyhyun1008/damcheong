@@ -1023,7 +1023,7 @@ async function parseYourJSON(json) {
 
                 var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                 var cType = document.querySelector('#cType').value.replace(/\/g, '')
-                var cRelatedTo = []
+                var cRelatedTo = ['']
                 for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                     var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
                     cRelatedTo[j] = json.character.list[cIndex].hashtag
@@ -2551,7 +2551,7 @@ async function parseYourJSON(json) {
     
                     var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                     var cType = document.querySelector('#cType').value.replace(/\/g, '')
-                    var cRelatedTo = []
+                    var cRelatedTo = ['']
                     for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                         var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
                         cRelatedTo[j] = json.character.list[cIndex].hashtag
