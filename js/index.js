@@ -1685,9 +1685,10 @@ async function parseYourJSON(json) {
 
                 //사명 (txtinput)
                 var temporaryGoalCount = cList[page].goal.length
+                var temporaryGoalKeyArray = cList[page].goal
                 var temporaryGoalValueArray = []
-                for (var i=0; i<cList[page].goal.length; i++) {
-                    temporaryGoalValueArray[i] = cList[page].goal[i]
+                for (var i=0; i<temporaryGoalCount; i++) {
+                    temporaryGoalValueArray[i] = temporaryGoalKeyArray[i]
                     document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput goal" id="cGoalEditor'+i+'"><label id="cGoalLabel'+i+'" for="cGoal'+i+'">'+(i+1)+' :</label> <input name="cGoal'+i+'" id="cGoal'+i+'" value="'+temporaryGoalValueArray[i]+'" ></div>'
                 }
 
