@@ -1778,7 +1778,8 @@ async function parseYourJSON(json) {
 
                 //다른 이름들 이벤트리스너
                 for (var i=0; i<document.querySelectorAll('.multiLineNicknameInput').length; i++) {
-                    addTemporaryValues('#cNickname',i, temporaryNicknameValueArray)
+                    addTemporaryValues('#cNicknamesLabel',i, temporaryNicknameKeyArray)
+                    addTemporaryValues('#cNicknames',i, temporaryNicknameValueArray)
                 }
                 document.querySelector('#addNickname').addEventListener("click", (e) => {
                     document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+temporaryNicknameCount+'"><input class="key nicknames" name="cNicknamesLabel'+temporaryNicknameCount+'" id="cNicknamesLabel'+temporaryNicknameCount+'" value="'+(temporaryNicknameCount+1)+'"> <input name="cNicknames'+temporaryNicknameCount+'" id="cNicknames'+temporaryNicknameCount+'"></div>'
@@ -1797,7 +1798,8 @@ async function parseYourJSON(json) {
                     }
 
                     for (var i=0; i<document.querySelectorAll('.multiLineNicknameInput').length; i++) {
-                        addTemporaryValues('#cNickname',i, temporaryNicknameValueArray)
+                        addTemporaryValues('#cNicknamesLabel',i, temporaryNicknameKeyArray)
+                        addTemporaryValues('#cNicknames',i, temporaryNicknameValueArray)
                     }
                 })
 
