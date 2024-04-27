@@ -1414,6 +1414,7 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
+                    console.log(temporaryEventKeyArray, temporaryEventValueArray)
                     document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
 
@@ -1429,7 +1430,7 @@ async function parseYourJSON(json) {
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
                     if (temporaryEventCount > 0) {
                         temporaryEventCount -= 1
-                        document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
+                        document.querySelector('#cEventEditor'+temporaryEventCount).remove()
                     }
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
