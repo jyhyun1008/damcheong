@@ -906,7 +906,7 @@ async function parseYourJSON(json) {
                         document.querySelector('#imgUpload').id = 'imgUploaded'+fileCount.l
                         fileCount.l += 1
 
-                        document.querySelector('#imgUploader').innerHTML += '<div id="imgUploadFrame'+fileCount.l;+'" onclick="deleteFile(this);" ><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div>'
+                        document.querySelector('#imgUploader').innerHTML += '<div id="imgUploadFrame'+fileCount.l+'" onclick="deleteFile(this);" ><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div>'
                     })
                     .catch(err => {throw err});
                     
@@ -937,7 +937,6 @@ async function parseYourJSON(json) {
                 for (var i=0; i < Math.min(document.querySelectorAll('.imgUploaded').length, 16); i++) {
                     cFile.push(document.querySelector('#imgUploaded'+i).innerText)
                 }
-                
                 
                 var createNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/create'
                 var createNoteParam
