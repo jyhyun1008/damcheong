@@ -1420,10 +1420,10 @@ async function parseYourJSON(json) {
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
-                            temporaryEventKeyArray[i] = this.value
+                            temporaryEventKeyArray[i] = e.target.value
                         })
                         document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
-                            temporaryEventValueArray[i] = this.value
+                            temporaryEventValueArray[i] = e.target.value
                         })
                     }
                 })
@@ -1435,10 +1435,10 @@ async function parseYourJSON(json) {
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         document.querySelector('#cEventLabel'+i).addEventListener("input", (e) => {
-                            temporaryEventKeyArray[i] = this.value
+                            temporaryEventKeyArray[i] = e.target.value
                         })
                         document.querySelector('#cEvent'+i).addEventListener("input", (e) => {
-                            temporaryEventValueArray[i] = this.value
+                            temporaryEventValueArray[i] = e.target.value
                         })
                     }
                 })
