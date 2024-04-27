@@ -924,7 +924,7 @@ async function parseYourJSON(json) {
             document.querySelector('.editform').innerHTML += '<textarea id="cContent" name="cContent"></textarea>'
 
             //파일첨부
-            document.querySelector('.editform').innerHTML += '<div class="editordiv" id="imgUploader"><div id="imageUploadFrame0"><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div></div><input type="file" id="imgRealUpload" accept="image/*" style="display: none;">'
+            document.querySelector('.editform').innerHTML += '<div class="editordiv" id="imgUploader"><div id="imgUploadFrame0" onclick="deleteFile(this);"><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div></div><input type="file" id="imgRealUpload" accept="image/*" style="display: none;">'
 
             //확인 버튼
             document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold" id="confirm">'+LANG.CONFIRM+'</span> <span class="bold" id="cancel">취소</span>'
@@ -971,7 +971,6 @@ async function parseYourJSON(json) {
                     .then((imgRes) => {
                         document.querySelector('#imgUpload').innerText = imgRes.id
                         document.querySelector('#imgUpload').classList.add('imgUploaded')
-                        document.querySelector('#imgUpload').setAttribute("onclick", "deleteFile(this);")
                         document.querySelector('#imgUpload').id = 'imgUploaded'+fileCount.l
                         fileCount.l += 1
 
@@ -2255,7 +2254,6 @@ async function parseYourJSON(json) {
                         .then((imgRes) => {
                             document.querySelector('#imgUpload').innerText = imgRes.id
                             document.querySelector('#imgUpload').classList.add('imgUploaded')
-                            document.querySelector('#imgUpload').setAttribute("onclick", "deleteFile(this);")
                             document.querySelector('#imgUpload').id = 'imgUploaded'+fileCount.l
                             fileCount.l += 1
 
