@@ -19,14 +19,19 @@ cssRoot.style.setProperty('--lightaccent', 'color-mix(in srgb, var(--accent) 70%
 cssRoot.style.setProperty('--opacityaccent', 'color-mix(in srgb, var(--darkaccent), transparent 40%)')
 cssRoot.style.setProperty('--bgaccent', 'color-mix(in srgb, var(--darkaccent), transparent 20%)')
 
-document.querySelector('#infonav').innerText = LANG.INFO
-document.querySelector('#collectionnav').innerText = LANG.COLLECTION
+document.querySelector('#infonav').innerHTML += '<span>'+ LANG.INFO +'</span>'
+document.querySelector('#refernav').innerHTML += '<span>'+ LANG.REFERENCE +'</span>'
+document.querySelector('#collectionnav').innerHTML += '<span>'+ LANG.COLLECTION +'</span>'
 
 var background = document.querySelector('#background');
 background.style.backgroundImage = 'url('+BACKIMGURL+')'
 
 var fileCount = {
     l: 0
+}
+
+var untilId = {
+    i: ''
 }
 
 var isLogin = false;
@@ -500,117 +505,111 @@ function changeParam(MISSKEYID, query, limit, untilId='') {
     });
 }
 
-function changeArrayParam(query, limit, untilId='') {
-    return new Promise((resolve) => {
-        if (untilId == '') {
-            resolve({
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    limit: limit
-                })
-            })
-        } else {
-            resolve({
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    limit: limit,
-                    untilId: untilId
-                })
-            })
-        }
-    });
-}
-
-
-async function fetchAgain(qid, hashtag, MISSKEYID = '') {
-
+async function findNoteAgain(query, until, listEl, buttonEl, MISSKEYID='') {
     if (MISSKEYID == '') {
-
         var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
-        var fetchCount = 0
-        var remainder = 0
-        if (!qid || qid == 0) {
-            return ''
-        } else if (qid > 20) {
-            fetchCount = Math.floor((qid * 5)/100)
-            remainder = (qid * 5) % 100
+        var fetchParam
+        if (isLogin) {
+            fetchParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    query: query,
+                    limit: 100,
+                    untilId: until
+                })
+            }
         } else {
-            remainder = qid * 5
+            fetchParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    limit: 100,
+                    untilId: until
+                })
+            }
         }
-    
-        var fetchParam = await changeArrayParam(hashtag, remainder)
-    
+
         var data = await fetch(fetchUrl, fetchParam)
         var result = await data.json()
-        var untilId = await result[remainder - 1].id
-        if (fetchCount == 0) {
-            return await untilId
+        
+        if (result.length == 100) {
+            untilId.l = result[99].id
+            buttonEl.innerHTML = '<span class="bold" onclick="findNoteAgain(`'+query+'`,`'+untilId.l+'`,'+listEl+','+ButtonEl+');">더 불러오기</span>'
         } else {
-            var fetchParam2 = await changeArrayParam(hashtag, 100, untilId)
+            buttonEl.innerHTML = '<span class="bold">마지막입니다</span>'
+        }
+
+        for (var i = 0; i<result.length; i++){
     
-            for (var i=0; i<fetchCount; i++) {
-                data = await fetch(fetchUrl, fetchParam2)
-                result = await data.json()
-                if (result.length < 100) {
-                    break
-                } 
-                if (i == fetchCount - 1) {
-                    return await result[99].id
-                } else {
-                    untilId = await result[99].id
-                    fetchParam2 = await changeArrayParam(hashtag, 100, untilId)
-                }
+            if (result[i].files.length == 0) {
+                listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div></a></div>'
+                if (result[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+result[i].cw+'</h1>'
+                document.querySelector('#collection'+i).innerHTML += parseMd(result[i].text)
+            } else {
+                listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><img src="'+result[i].files[0].url+'"></a></div>'
             }
         }
 
     } else {
-
         var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
-        var fetchCount = 0
-        var remainder = 0
-        if (!qid || qid == 0) {
-            return ''
-        } else if (qid > 20) {
-            fetchCount = Math.floor((qid * 5)/100)
-            remainder = (qid * 5) % 100
+        var fetchParam
+        if (isLogin) {
+            fetchParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    query: query,
+                    userId: MISSKEYID,
+                    limit: 100,
+                    untilId: until
+                })
+            }
         } else {
-            remainder = qid * 5
+            fetchParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    userId: MISSKEYID,
+                    limit: 100,
+                    untilId: until
+                })
+            }
         }
-    
-        var fetchParam = await changeParam(MISSKEYID, hashtag, remainder)
-    
+
         var data = await fetch(fetchUrl, fetchParam)
         var result = await data.json()
-        var untilId = await result[remainder - 1].id
-        if (fetchCount == 0) {
-            return await untilId
+        
+        if (result.length == 100) {
+            untilId.l = result[99].id
+            buttonEl.innerHTML = '<span class="bold" onclick="findNoteAgain(`'+query+'`,`'+untilId.l+'`,'+listEl+','+ButtonEl+',`'+MISSKEYID+'`);">더 불러오기</span>'
         } else {
-            var fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
+            buttonEl.innerHTML = '<span class="bold">마지막입니다</span>'
+        }
+
+        for (var i = 0; i<result.length; i++){
     
-            for (var i=0; i<fetchCount; i++) {
-                data = await fetch(fetchUrl, fetchParam2)
-                result = await data.json()
-                if (result.length < 100) {
-                    break
-                } 
-                if (i == fetchCount - 1) {
-                    return await result[99].id
-                } else {
-                    untilId = await result[99].id
-                    fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
-                }
+            if (result[i].files.length == 0) {
+                listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div></a></div>'
+                if (result[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+result[i].cw+'</h1>'
+                document.querySelector('#collection'+i).innerHTML += parseMd(result[i].text)
+            } else {
+                listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><img src="'+result[i].files[0].url+'"></a></div>'
             }
         }
     }
-
 }
 
 function loadBackground(json) {
@@ -659,12 +658,31 @@ function loadBackground(json) {
         if (isLogin) {
             document.querySelector('#list'+(cCategory.length - 1)).innerHTML += '<a href="./?page='+cList.length+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
         }
+
+        for (var i = 0; i < json.character.category.length; i++) {
+            var count = document.querySelectorAll('#list'+i+' .characteritem').length
+            if (count % 3 == 1) {
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+            } else if (count % 3 == 2) {
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+            }
+        }
     } else {
         for (var i = 0; i < cList.length; i++) {
             if (cList[i].category == category) {
                 if (year >= cList[i].lived[0] && year <= cList[i].lived[1]) {
                     document.querySelector('.characterlist').innerHTML += '<a href="./?page='+i+'"><div class="characteritem" onmouseover="hoverCharacter('+i+')"><div><img src="'+cList[i].avatar+'" class="cavatar"></div><div class="cname">'+cList[i].name+'</div><div class="csummary">'+cList[i].summary+'</div></div></a>'
                 }
+            }
+        }
+        for (var i = 0; i < json.character.category.length; i++) {
+            var count = document.querySelectorAll('#list'+i+' .characteritem').length
+            if (count % 3 == 1) {
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
+            } else if (count % 3 == 2) {
+                document.querySelector('#list'+i).innerHTML += '<a href="./?page='+i+'"><div class="characteritem"><div class="new"><i class="bx bx-add-to-queue"></i></div><div class="cname">'+LANG.ADDCHARACTER+'</div></div></a>'
             }
         }
     }
@@ -1064,85 +1082,59 @@ async function parseYourJSON(json) {
     
             var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
             var findArtsParam
-            if (!qid || qid == 0 ) {
-                if (isLogin) {
-                    findArtsParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            i: token,
-                            query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
-                            userId: MISSKEYID,
-                            limit: 100
-                        })
-                    }
-                } else {
-                    findArtsParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
-                            userId: MISSKEYID,
-                            limit: 100
-                        })
-                    }
+            if (isLogin) {
+                findArtsParam = {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        i: token,
+                        query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
+                        userId: MISSKEYID,
+                        limit: 100
+                    })
                 }
-                document.querySelector('.collectionqid').innerHTML = '0 · <a href="./?page='+page+'&qid='+1+'">'+LANG.NEXT+'</a>'
             } else {
-                if (isLogin) {
-                    findArtsParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            i: token,
-                            query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
-                            userId: MISSKEYID,
-                            limit: 100,
-                            untilId: fetchAgain(qid, json.info.mainHashtag+' #'+LANG.FINISHEDWORK, MISSKEYID)
-                        })
-                    }
-                } else {
-                    findArtsParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
-                            userId: MISSKEYID,
-                            limit: 100,
-                            untilId: fetchAgain(qid, json.info.mainHashtag+' #'+LANG.FINISHEDWORK, MISSKEYID)
-                        })
-                    }
+                findArtsParam = {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
+                        userId: MISSKEYID,
+                        limit: 100
+                    })
                 }
-                document.querySelector('.collectionqid').innerHTML = '<a href="./?page='+page+'&qid='+(qid-1)+'">'+LANG.PREV+'</a> · '+qid+' · <a href="./?page='+page+'&qid='+(qid+1)+'">'+LANG.NEXT+'</a>'
             }
-            fetch(findArtsUrl, findArtsParam)
-            .then((notesData) => {return notesData.json()})
-            .then((notesRes) => {
-                for (var i = 0; i<notesRes.length; i++){
-    
-                    if (notesRes[i].files.length == 0) {
-                        document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div></a></div>'
-                        if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '</h1>'+notesRes[i].cw+'</h1>'
-                        document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
-                    } else {
-                        document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"></a></div>'
-                    }
-                }
-    
-                if (isLogin) {
-                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
-                }
-            })
         }
+        fetch(findArtsUrl, findArtsParam)
+        .then((notesData) => {return notesData.json()})
+        .then((notesRes) => {
 
+            if (notesRes.length == 100) {
+                untilId.l = notesRes[99].id
+                document.querySelector('.collectionqid').innerHTML = '<span class="bold" onclick="findNoteAgain(`'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK+'`,`'+untilId.l+'`,document.querySelector(`.collectionlist`),document.querySelector(`.collectionqid`),`'+MISSKEYID+'`);">더 불러오기</span>'
+            } else {
+                document.querySelector('.collectionqid').innerHTML = '<span class="bold">마지막입니다</span>'
+            }
+
+            if (isLogin) {
+                document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
+            }
+
+            for (var i = 0; i<notesRes.length; i++){
+
+                if (notesRes[i].files.length == 0) {
+                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                    if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
+                    document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                } else {
+                    document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                }
+            }
+        })
     } else if (page && page != 'callback') {
         loadBackground(json)
         document.querySelector('#wrapper').addEventListener("click", (e) => {
@@ -1567,6 +1559,13 @@ async function parseYourJSON(json) {
                     var relatedCategorylist = worldPage.data.relatedTo[relatedCategory[i]]
                     for (var j = 0; j < relatedCategorylist.length; j++) {
                         document.querySelector('#relatedlist'+i).innerHTML += '<a href="./?page='+relatedCategorylist[j]+'"><div class="characteritem" onmouseover="hoverCharacter('+relatedCategorylist[j]+')"><div><img src="'+cList[relatedCategorylist[j]].avatar+'" class="cavatar"></div><div class="cname">'+cList[relatedCategorylist[j]].name+'</div><div class="csummary">'+cList[relatedCategorylist[j]].summary+'</div></div></a>'
+                    }
+                    
+                    var count = document.querySelectorAll('#relatedlist'+i+' .characteritem').length
+                    if (count % 3 == 1) {
+                        document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                    } else if (count % 3 == 2) {
+                        document.querySelector('#relatedlist'+i).innerHTML += '<div class="characteritem" style="aspect-ratio: 1 / 1;"></div>'
                     }
                 }
 
@@ -1995,7 +1994,7 @@ async function parseYourJSON(json) {
                 document.querySelector('#popup-content').innerHTML = '<div class="characterprofile"></div>'
                 document.querySelector('#popup-content').innerHTML += '<div class="relatedcharacterlist"></div>'
                 document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"></div>'
-                document.querySelector('#popup-content').innerHTML += '<div id="collectionlist"><div id="worktitle"></div><div id="worklist" class="collectionlist"></div><div id="workqid" class="collectionqid"></div><div id="drafttitle"></div><div id="draftlist" class="collectionlist"></div><div id="draftqid" class="collectionqid"></div></div>'
+                document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
     
                 document.querySelector('.characterprofile').innerHTML = '<h1 class="cprofilename">'+cList[page].name+'</h1>'
                 document.querySelector('.characterprofile').innerHTML += '<div class="cprofileavatar"><img src="'+cList[page].avatar+'"><div>'
@@ -2057,28 +2056,33 @@ async function parseYourJSON(json) {
                     for (var j = 0; j < relatedCategorylist.length; j++) {
                         document.querySelector('#relatedlist'+i).innerHTML += '<a href="./?page='+relatedCategorylist[j]+'"><div class="characteritem" onmouseover="hoverCharacter('+relatedCategorylist[j]+')"><div><img src="'+cList[relatedCategorylist[j]].avatar+'" class="cavatar"></div><div class="cname">'+cList[relatedCategorylist[j]].name+'</div><div class="csummary">'+cList[relatedCategorylist[j]].summary+'</div></div></a>'
                     }
+                    
+                    var count = document.querySelectorAll('#relatedlist'+i+' .characteritem').length
+                    if (count % 3 == 1) {
+                        document.querySelector('#relatedlist'+i).innerHTML += '<a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a><a href="'+location.href+'"><div class="characteritem" style="aspect-ratio: 1 / 1;"></div></a>'
+                    } else if (count % 3 == 2) {
+                        document.querySelector('#relatedlist'+i).innerHTML += '<div class="characteritem" style="aspect-ratio: 1 / 1;"></div>'
+                    }
                 }
     
-                var workHashTagQuery = [[LANG.FINISHEDWORK, json.info.mainHashtag, cList[page].hashtag]]
-                if (workHashTagQuery[0][0] != '') {
+                if (cList[page].hashtag) {
                     document.querySelector('#collectiontitle').innerHTML = '<h1>관련 작품 모음</h1>'
-                    document.querySelector('#worktitle').innerHTML = '<h2>'+LANG.FINISHEDWORK+'</h2>'
-                    document.querySelector('#drafttitle').innerHTML = '<h2>'+LANG.DRAFT+'</h2>'
     
-                    var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
+                    var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
                     var findArtsParam
-                    if (!workqid || workqid == 0 ) {
+                    if (isLogin) {
                         findArtsParam = {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: workHashTagQuery,
-                                limit: 5
+                                i: token,
+                                query: cList[page].hashtag,
+                                userId: MISSKEYID,
+                                limit: 100
                             })
                         }
-                        document.querySelector('#workqid').innerHTML = '0 · <a href="./?page='+page+'&qid='+1+','+draftqid+'">'+LANG.NEXT+'</a>'
                     } else {
                         findArtsParam = {
                             method: 'POST',
@@ -2086,74 +2090,38 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: workHashTagQuery,
-                                limit: 5,
-                                untilId: await fetchAgain(workqid, workHashTagQuery)
+                                query: cList[page].hashtag,
+                                userId: MISSKEYID,
+                                limit: 100
                             })
                         }
-                        document.querySelector('#workqid').innerHTML = '<a href="./?page='+page+'&qid='+(workqid-1)+','+draftqid+'">'+LANG.PREV+'</a> · '+workqid+' · <a href="./?page='+page+'&qid='+(workqid+1)+','+draftqid+'">'+LANG.NEXT+'</a>'
                     }
                     fetch(findArtsUrl, findArtsParam)
-                    .then((artsData) => {return artsData.json()})
-                    .then((artsRes) => {
-                        for (var i = 0; i<artsRes.length; i++){
-                            if (artsRes[i].user.username == MISSKEYUSER) {
-                                if (artsRes[i].files.length == 0) {
-                                    document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><div class="overflowhidden" id="work'+i+'"></div></a></div>'
-                                    if (artsRes[i].cw) document.querySelector('#work'+i).innerHTML = '</h1>'+artsRes[i].cw+'</h1>'
-                                    document.querySelector('#work'+i).innerHTML += parseMd(artsRes[i].text)
-                                } else {
-                                    document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><img src="'+artsRes[i].files[0].url+'"></a></div>'
-                                }
+                    .then((notesData) => {return notesData.json()})
+                    .then((notesRes) => {
+                        if (notesRes.length == 100) {
+                            untilId.l = notesRes[99].id
+                            document.querySelector('.collectionworkqid').innerHTML = '<span class="bold" onclick="findNoteAgain(`'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK+'`,`'+untilId.l+'`,document.querySelector(`.collectionworklist`),document.querySelector(`.collectionworkqid`),`'+MISSKEYID+'`);">더 불러오기</span>'
+                        } else {
+                            document.querySelector('.collectionworkqid').innerHTML = '<span class="bold">마지막입니다</span>'
+                        }
+            
+                        if (isLogin) {
+                            document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><div class="new"><a href="./?page=collection&mode=edit"><i class="bx bx-add-to-queue"></i></a></div></div>'
+                        }
+            
+                        for (var i = 0; i<notesRes.length; i++){
+            
+                            if (notesRes[i].files.length == 0) {
+                                document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                                if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
+                                document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                            } else {
+                                document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                             }
                         }
                     })
     
-                    var draftHashTagQuery = [[LANG.DRAFT, json.info.mainHashtag, cList[page].hashtag]]
-                    var findDraftsUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
-                    var findDraftsParam
-                    if (!draftqid || draftqid == 0 ) {
-                        findDraftsParam = {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                query: draftHashTagQuery,
-                                limit: 5
-                            })
-                        }
-                        document.querySelector('#draftqid').innerHTML = '0 · <a href="./?page='+page+'&qid='+(workqid)+','+(draftqid+1)+'">'+LANG.NEXT+'</a>'
-                    } else {
-                        findDraftsParam = {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                query: draftHashTagQuery,
-                                userId: MISSKEYID,
-                                limit: 5,
-                                untilId: await fetchAgain(draftqid, draftHashTagQuery)
-                            })
-                        }
-                        document.querySelector('#draftqid').innerHTML = '<a href="./?page='+page+'&qid='+(workqid)+','+(draftqid-1)+'">'+LANG.PREV+'</a> · '+draftqid+' · <a href="./?page='+page+'&qid='+(workqid)+','+(draftqid+1)+'">'+LANG.NEXT+'</a>'
-                    }
-                    fetch(findDraftsUrl, findDraftsParam)
-                    .then((draftsData) => {return draftsData.json()})
-                    .then((draftsRes) => {
-                        for (var i = 0; i<draftsRes.length; i++){
-                            if (draftsRes[i].user.username == MISSKEYUSER) {
-                                if (draftsRes[i].files.length == 0) {
-                                    document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><div class="overflowhidden" id="draft'+i+'"></div></a></div>'
-                                    if (draftsRes[i].cw) document.querySelector('#draft'+i).innerHTML = '</h1>'+draftsRes[i].cw+'</h1>'
-                                    document.querySelector('#draft'+i).innerHTML += parseMd(draftsRes[i].text)
-                                } else {
-                                    document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><img src="'+draftsRes[i].files[0].url+'"></a></div>'
-                                }
-                            }
-                        }
-                    })
                 }
     
                 document.querySelector('#hideChronology').addEventListener("click", (e) => {

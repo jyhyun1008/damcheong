@@ -35,7 +35,7 @@ const koKR = {
 	"GOAL": "목표",
 	"HASHTAGS": "보조 태그",
 	"IMAGE": "사진",
-	"INFO": "기본정보",
+	"INFO": "정보",
 	"JSONEDITOR": "JSON 편집기",
 	"LIVEDYEAR": "생몰년",
 	"LOCATIONEDIT": {
@@ -55,6 +55,7 @@ const koKR = {
 	"POSITION": "직위",
 	"PREV": "이전",
 	"READONREMOTE": "리모트에서 보기",
+	"REFERENCE": "자료",
 	"RELATEDTO": "관련 캐릭터",
 	"SECRET": "비밀 설정",
 	"SUBCATEGORY": "세부분류",

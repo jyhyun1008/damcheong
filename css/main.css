@@ -53,6 +53,22 @@ body {
     align-items: center;
 }
 
+.nav-list i {
+    font-size: 1.2rem;
+}
+
+.nav-list span {
+    display: none;
+}
+
+.nav-list:hover i {
+    display: none;
+}
+
+.nav-list:hover span {
+    display: inline;
+}
+
 #title {
     margin-bottom: 0;
     margin-top: 10px;
@@ -229,6 +245,8 @@ body {
     flex-wrap: wrap;
     width: 100%;
     gap:5px;
+    margin-bottom: 10px;
+    justify-content: space-between;
 }
 
 .relatedcharacterlist {
@@ -397,7 +415,7 @@ a {
     margin: 0px auto;
 }
 
-.collectionlist {
+.collectionlist, .collectionworklist {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
