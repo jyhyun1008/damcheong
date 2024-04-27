@@ -1654,7 +1654,7 @@ async function parseYourJSON(json) {
                 var temporaryNicknameKeyArray = nicknames
                 var temporaryNicknameValueArray = []
                 for (var i=0; i<nicknames.length; i++) {
-                    temporaryEventValueArray[i] = cList[page].nickname[nicknames[i]]
+                    temporaryNicknameValueArray[i] = cList[page].nickname[nicknames[i]]
                     document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+i+'"><input class="key nicknames" id="cNicknamesLabel'+i+'" name="cNicknamesLabel'+i+'" value="'+temporaryNicknameKeyArray[i]+'"> <input type="text" class="val nicknames" id="cNicknames'+i+'" name="cNicknames'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
                 }
 
