@@ -1099,7 +1099,7 @@ async function parseYourJSON(json) {
                             query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
                             userId: MISSKEYID,
                             limit: 100,
-                            untilId: fetchAgain(qid, hashTagQuery, MISSKEYID)
+                            untilId: fetchAgain(qid, json.info.mainHashtag+' #'+LANG.FINISHEDWORK, MISSKEYID)
                         })
                     }
                 } else {
@@ -1112,7 +1112,7 @@ async function parseYourJSON(json) {
                             query: json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
                             userId: MISSKEYID,
                             limit: 100,
-                            untilId: fetchAgain(qid, hashTagQuery, MISSKEYID)
+                            untilId: fetchAgain(qid, json.info.mainHashtag+' #'+LANG.FINISHEDWORK, MISSKEYID)
                         })
                     }
                 }
@@ -1990,7 +1990,6 @@ async function parseYourJSON(json) {
                             },
                             body: JSON.stringify({
                                 query: workHashTagQuery,
-                                userId: MISSKEYID,
                                 limit: 5
                             })
                         }
@@ -2036,7 +2035,6 @@ async function parseYourJSON(json) {
                             },
                             body: JSON.stringify({
                                 query: draftHashTagQuery,
-                                userId: MISSKEYID,
                                 limit: 5
                             })
                         }
@@ -2051,7 +2049,7 @@ async function parseYourJSON(json) {
                                 query: draftHashTagQuery,
                                 userId: MISSKEYID,
                                 limit: 5,
-                                untilId: await fetchAgain(draftqid, hashTagQuery, MISSKEYID)
+                                untilId: await fetchAgain(draftqid, draftHashTagQuery)
                             })
                         }
                         document.querySelector('#draftqid').innerHTML = '<a href="./?page='+page+'&qid='+(workqid)+','+(draftqid-1)+'">'+LANG.PREV+'</a> · '+draftqid+' · <a href="./?page='+page+'&qid='+(workqid)+','+(draftqid+1)+'">'+LANG.NEXT+'</a>'
