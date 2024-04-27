@@ -1651,8 +1651,11 @@ async function parseYourJSON(json) {
                 //다른 이름들 (input 지옥)
                 var nicknames = Object.keys(cList[page].nickname)
                 var temporaryNicknameCount = nicknames.length
+                var temporaryNicknameKeyArray = nicknames
+                var temporaryNicknameValueArray = []
                 for (var i=0; i<nicknames.length; i++) {
-                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineInput" id="cNicknamesEditor'+i+'"><input class="key nicknames" id="cNicknamesLabel'+i+'" name="cNicknamesLabel'+i+'" value="'+nicknames[i]+'"> <input type="text" class="val nicknames" id="cNicknames'+i+'" name="cNicknames'+i+'" value="'+cList[page].nickname[nicknames[i]]+'"></div>'
+                    temporaryEventValueArray[i] = cList[page].nickname[nicknames[i]]
+                    document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+i+'"><input class="key nicknames" id="cNicknamesLabel'+i+'" name="cNicknamesLabel'+i+'" value="'+temporaryNicknameKeyArray[i]+'"> <input type="text" class="val nicknames" id="cNicknames'+i+'" name="cNicknames'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
                 }
 
                 //분류
@@ -1680,10 +1683,11 @@ async function parseYourJSON(json) {
                 //사명 (틀 생성)
                 document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.GOAL+'</span> <span id="addGoal">'+LANG.ADDLINE+'</span> · <span id="deleteGoal">'+LANG.DELLINE+'</span></div><div id="goal" class="editordiv"></div>'
 
-                //사명 (드롭다운)
+                //사명 (txtinput)
                 var temporaryGoalCount = cList[page].goal.length
+                var temporaryGoalValueArray = cList[page].goal
                 for (var i=0; i<cList[page].goal.length; i++) {
-                    document.querySelector('#goal').innerHTML += '<div class="multiLineInput goal" id="cGoalEditor'+i+'"><label id="cGoalLabel'+i+'" for="cGoal'+i+'">'+(i+1)+' :</label> <input name="cGoal'+i+'" id="cGoal'+i+'"></div>'
+                    document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput goal" id="cGoalEditor'+i+'"><label id="cGoalLabel'+i+'" for="cGoal'+i+'">'+(i+1)+' :</label> <input name="cGoal'+i+'" id="cGoal'+i+'" value="'+temporaryGoalValueArray[i]+'"></div>'
                 }
 
                 //포지션 (틀 생성)
@@ -1770,24 +1774,42 @@ async function parseYourJSON(json) {
                 document.querySelector('#addNickname').addEventListener("click", (e) => {
                     document.querySelector('#nicknames').innerHTML += '<div class="multiLineNicknameInput" id="cNicknamesEditor'+temporaryNicknameCount+'"><input class="key nicknames" name="cNicknamesLabel'+temporaryNicknameCount+'" id="cNicknamesLabel'+temporaryNicknameCount+'" value="'+(temporaryNicknameCount+1)+'"> <input name="cNicknames'+temporaryNicknameCount+'" id="cNicknames'+temporaryNicknameCount+'"></div>'
                     temporaryNicknameCount += 1
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineNicknameInput').length; i++) {
+                        addTemporaryValues('#cNicknamesLabel',i, temporaryNicknameKeyArray)
+                        addTemporaryValues('#cNicknames',i, temporaryNicknameValueArray)
+                    }
                 })
+
                 document.querySelector('#deleteNickname').addEventListener("click", (e) => {
                     if (temporaryNicknameCount > 0) {
                         temporaryNicknameCount -= 1
                         document.querySelector('#cNicknamesEditor'+temporaryNicknameCount).remove()    
                     }
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineNicknameInput').length; i++) {
+                        addTemporaryValues('#cNickname',i, temporaryNicknameValueArray)
+                    }
                 })
 
                 //사명 이벤트리스너
                 document.querySelector('#addGoal').addEventListener("click", (e) => {
-                    document.querySelector('#goal').innerHTML += '<div class="multiLineInput" id="cGoalEditor'+temporaryGoalCount+'"><label id="cGoalLabel'+temporaryGoalCount+'" for="cGoal'+temporaryGoalCount+'">'+(temporaryGoalCount+1)+' :</label>  <input name="cGoal'+temporaryGoalCount+'" id="cGoal'+temporaryGoalCount+'"></div>'
+                    document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput" id="cGoalEditor'+temporaryGoalCount+'"><label id="cGoalLabel'+temporaryGoalCount+'" for="cGoal'+temporaryGoalCount+'">'+(temporaryGoalCount+1)+' :</label>  <input name="cGoal'+temporaryGoalCount+'" id="cGoal'+temporaryGoalCount+'"></div>'
                     temporaryGoalCount += 1
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineGoalInput').length; i++) {
+                        addTemporaryValues('#cGoal',i, temporaryGoalValueArray)
+                    }
                 })
 
                 document.querySelector('#deleteGoal').addEventListener("click", (e) => {
                     if (temporaryGoalCount > 0) {
                         temporaryGoalCount -= 1
                         document.querySelector('#cGoalEditor'+temporaryGoalCount).remove()    
+                    }
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineGoalInput').length; i++) {
+                        addTemporaryValues('#cGoal',i, temporaryGoalValueArray)
                     }
                 })
 
