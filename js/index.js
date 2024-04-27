@@ -1419,10 +1419,10 @@ async function parseYourJSON(json) {
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
-                            temporaryEventKeyArray[i] = document.querySelector('#cEventLabel'+i).value
+                            temporaryEventKeyArray[i] = this.value
                         })
                         document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
-                            temporaryEventValueArray[i] = document.querySelector('#cEvent'+i).value
+                            temporaryEventValueArray[i] = this.value
                         })
                     }
                 })
