@@ -1420,10 +1420,12 @@ async function parseYourJSON(json) {
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
                         document.querySelector('#cEventLabel'+i).addEventListener("input", (e) => {
-                            temporaryEventKeyArray[i] = e.target.value
+                            document.querySelector('#cEventLabel'+i).setAttribute("value", e.target.value)
+                          // temporaryEventKeyArray[i] = e.target.value
                         })
                         document.querySelector('#cEvent'+i).addEventListener("input", (e) => {
-                            temporaryEventValueArray[i] = e.target.value
+                            document.querySelector('#cEvent'+i).setAttribute("value", e.target.value)
+                           // temporaryEventValueArray[i] = e.target.value
                         })
                     }
                 })
