@@ -863,7 +863,7 @@ async function parseYourJSON(json) {
 
             //연관 캐릭터 이벤트 리스너
             document.querySelector('#addRelatedTo').addEventListener("click", (e) => {
-                document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedToCount+'"><label id="cRelatedToLabel'+temporaryRelatedToCount+'" for="cRelatedTo'+temporaryRelatedToCount+'">'+(temporaryRelatedToCount+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedToCount+'" id="cRelatedTo'+temporaryRelatedToCount+'"></select></div>'
+                document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedToCount+'"><label id="cRelatedToLabel'+temporaryRelatedToCount+'" for="cRelatedTo'+temporaryRelatedToCount+'">'+(temporaryRelatedToCount+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedToCount+'" id="cRelatedTo'+temporaryRelatedToCount+'" class="relatedTo" ></select></div>'
                 for (var j=0; j<json.character.list.length; j++) {
                     document.querySelector('#cRelatedTo'+temporaryRelatedToCount).innerHTML += '<option value="'+j+'">'+json.character.list[j].name+'</option>'
                 }
@@ -920,7 +920,7 @@ async function parseYourJSON(json) {
                 var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                 var cType = document.querySelector('#cType').value.replace(/\/g, '')
                 var cRelatedTo = []
-                for (var j=0; j < document.querySelectorAll('#relatedTo').length; j++) {
+                for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                     var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
                     cRelatedTo[j] = json.character.list[cIndex].hashtag
                 }
@@ -2142,7 +2142,7 @@ async function parseYourJSON(json) {
     
                 //연관 캐릭터 이벤트 리스너
                 document.querySelector('#addRelatedTo').addEventListener("click", (e) => {
-                    document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedToCount+'"><label id="cRelatedToLabel'+temporaryRelatedToCount+'" for="cRelatedTo'+temporaryRelatedToCount+'">'+(temporaryRelatedToCount+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedToCount+'" id="cRelatedTo'+temporaryRelatedToCount+'"></select></div>'
+                    document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedToCount+'"><label id="cRelatedToLabel'+temporaryRelatedToCount+'" for="cRelatedTo'+temporaryRelatedToCount+'">'+(temporaryRelatedToCount+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedToCount+'" id="cRelatedTo'+temporaryRelatedToCount+'" class="relatedTo" ></select></div>'
                     for (var j=0; j<json.character.list.length; j++) {
                         document.querySelector('#cRelatedTo'+temporaryRelatedToCount).innerHTML += '<option value="'+j+'">'+json.character.list[j].name+'</option>'
                     }
@@ -2199,7 +2199,7 @@ async function parseYourJSON(json) {
                     var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                     var cType = document.querySelector('#cType').value.replace(/\/g, '')
                     var cRelatedTo = []
-                    for (var j=0; j < document.querySelectorAll('#relatedTo').length; j++) {
+                    for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                         var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
                         cRelatedTo[j] = json.character.list[cIndex].hashtag
                     }
