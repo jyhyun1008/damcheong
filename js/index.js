@@ -38,9 +38,9 @@ var isLogin = false;
 if (sessionId) {
     isLogin = true;
     if (location.href.includes('?')) {
-        document.querySelector('.nav-box').innerHTML += '<div class="nav-list"><a href="'+location.href+'&mode=edit">'+LANG.EDIT+'</a></div>'
+        document.querySelector('.nav-box').innerHTML += '<div class="nav-list"><a href="'+location.href+'&mode=edit"><i class="bx bx-edit" ></i><span>'+LANG.EDIT+'</span></a></div>'
     } else {
-        document.querySelector('.nav-box').innerHTML += '<div class="nav-list"><a href="./?mode=edit">'+LANG.EDIT+'</a></div>'
+        document.querySelector('.nav-box').innerHTML += '<div class="nav-list"><a href="./?mode=edit"><i class="bx bx-edit" ></i><span>'+LANG.EDIT+'</span></a></div>'
     }
 }
 
