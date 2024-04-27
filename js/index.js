@@ -680,10 +680,10 @@ function loadBackground(json) {
     })
 }
 
-function addTemporaryValues(queryText, index) {
+function addTemporaryValues(queryText, index, targetArray) {
     document.querySelector(queryText+index).addEventListener("input", (e) => {
         document.querySelector(queryText+index).setAttribute("value", e.target.value)
-        temporaryEventKeyArray[index] = e.target.value
+        targetArray[index] = e.target.value
     })
 }
 
@@ -1426,8 +1426,8 @@ async function parseYourJSON(json) {
                     temporaryEventCount += 1
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
-                        addTemporaryValues('#cEventLabel',i)
-                        addTemporaryValues('#cEvent',i)
+                        addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventKeyArray)
                     }
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
@@ -1437,8 +1437,8 @@ async function parseYourJSON(json) {
                     }
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
-                        addTemporaryValues('#cEventLabel',i)
-                        addTemporaryValues('#cEvent',i)
+                        addTemporaryValues('#cEventLabel',i, temporaryEventKeyArray)
+                        addTemporaryValues('#cEvent',i, temporaryEventKeyArray)
                     }
                 })
 
