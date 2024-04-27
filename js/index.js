@@ -1411,13 +1411,13 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
                     if (temporaryEventCount > 0) {
                         temporaryEventCount -= 1
-                        document.querySelector('#cEventsEditor'+temporaryEventCount).remove()    
+                        document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
                     }
                 })
 
@@ -1767,25 +1767,25 @@ async function parseYourJSON(json) {
 
                 //포지션 이벤트리스너
                 document.querySelector('#addPosition').addEventListener("click", (e) => {
-                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionsEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPositions'+temporaryPositionCount+'" id="cPositions'+temporaryPositionCount+'"></div>'
+                    document.querySelector('#position').innerHTML += '<div class="multiLineInput" id="cPositionEditor'+temporaryPositionCount+'"><input class="key position" name="cPositionLabel'+temporaryPositionCount+'" id="cPositionLabel'+temporaryPositionCount+'" value="0.0"> <input name="cPositions'+temporaryPositionCount+'" id="cPositions'+temporaryPositionCount+'"></div>'
                     temporaryPositionCount += 1
                 })
                 document.querySelector('#deletePosition').addEventListener("click", (e) => {
                     if (temporaryPositionCount > 0) {
                         temporaryPositionCount -= 1
-                        document.querySelector('#cPositionsEditor'+temporaryPositionCount).remove()    
+                        document.querySelector('#cPositionEditor'+temporaryPositionCount).remove()    
                     }
                 })
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventsEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0.0"> <input name="cEvents'+temporaryEventCount+'" id="cEvents'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
                     if (temporaryEventCount > 0) {
                         temporaryEventCount -= 1
-                        document.querySelector('#cEventsEditor'+temporaryEventCount).remove()    
+                        document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
                     }
                 })
 
