@@ -1370,7 +1370,7 @@ async function parseYourJSON(json) {
                 var temporaryEventValueArray = []
                 for (var i=0; i<event.length; i++) {
                     temporaryEventValueArray[i] = worldPage.data.eventChronology[temporaryEventKeyArray[i]]
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+temporaryEventKeyArray[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+i+'"><input class="key event" id="cEventLabel'+i+'" name="cEventLabel'+i+'" value="'+temporaryEventKeyArray[i]+'"> <input type="text" id="cEvent'+i+'" name="cEvent'+i+'" value="'+temporaryEventValueArray[i]+'"></div>'
                 }
 
                 //요약
@@ -1393,7 +1393,7 @@ async function parseYourJSON(json) {
 
                     temporaryRelatedToCharacterCount.push(worldPage.data.relatedTo[relatedToKey[i]].length)
                     for (var l=0; l<worldPage.data.relatedTo[relatedToKey[i]].length; l++) {
-                        document.querySelector('#relatedTo'+i).innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+i+'-'+l+'"><label id="cRelatedToLabel'+i+'-'+l+'" for="cRelatedTo'+i+'-'+l+'">'+(l+1)+' :</label> <select name="cRelatedTo'+i+'-'+l+'" id="cRelatedTo'+i+'-'+l+'"></select></div>'
+                        document.querySelector('#relatedTo'+i).innerHTML += '<div class="multiLineRelatedToInput" id="cRelatedToEditor'+i+'-'+l+'"><label id="cRelatedToLabel'+i+'-'+l+'" for="cRelatedTo'+i+'-'+l+'">'+(l+1)+' :</label> <select name="cRelatedTo'+i+'-'+l+'" id="cRelatedTo'+i+'-'+l+'"></select></div>'
                         for (var j=0; j<json.character.list.length; j++) {
                             if (worldPage.data.relatedTo[relatedToKey[l]] == j) {
                                 document.querySelector('#cRelatedTo'+i+'-'+l).innerHTML += '<option value="'+j+'" selected>'+json.character.list[j].name+'</option>'
@@ -1414,7 +1414,7 @@ async function parseYourJSON(json) {
 
                 //사건 이벤트리스너
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
-                    document.querySelector('#event').innerHTML += '<div class="multiLineInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
+                    document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
@@ -1423,6 +1423,14 @@ async function parseYourJSON(json) {
                         document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
                     }
                 })
+                for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                    document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
+                        temporaryEventKeyArray[i] = document.querySelector('#cEventLabel'+i).value
+                    })
+                    document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
+                        temporaryEventValueArray[i] = document.querySelector('#cEvent'+i).value
+                    })
+                }
 
                 //인간관계 이벤트리스너
 
