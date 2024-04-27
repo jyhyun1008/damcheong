@@ -504,41 +504,113 @@ function changeParam(MISSKEYID, query, limit, untilId='') {
     });
 }
 
-async function fetchAgain(qid, hashtag, MISSKEYID) {
+function changeArrayParam(query, limit, untilId='') {
+    return new Promise((resolve) => {
+        if (untilId == '') {
+            resolve({
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    limit: limit
+                })
+            })
+        } else {
+            resolve({
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    limit: limit,
+                    untilId: untilId
+                })
+            })
+        }
+    });
+}
 
-    var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
-    var fetchCount = 0
-    var remainder = 0
-    if (!qid || qid == 0) {
-        return ''
-    } else if (qid > 20) {
-        fetchCount = Math.floor((qid * 5)/100)
-        remainder = (qid * 5) % 100
+
+async function fetchAgain(qid, hashtag, MISSKEYID = '') {
+
+    if (Array.isArray(hashtag)) {
+
+        var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
+        var fetchCount = 0
+        var remainder = 0
+        if (!qid || qid == 0) {
+            return ''
+        } else if (qid > 20) {
+            fetchCount = Math.floor((qid * 5)/100)
+            remainder = (qid * 5) % 100
+        } else {
+            remainder = qid * 5
+        }
+    
+        var fetchParam = await changeArrayParam(hashtag, remainder)
+    
+        var data = await fetch(fetchUrl, fetchParam)
+        var result = await data.json()
+        var untilId = await result[remainder - 1].id
+        if (fetchCount == 0) {
+            return await untilId
+        } else {
+            var fetchParam2 = await changeArrayParam(hashtag, 100, untilId)
+    
+            for (var i=0; i<fetchCount; i++) {
+                data = await fetch(fetchUrl, fetchParam2)
+                result = await data.json()
+                if (result.length < 100) {
+                    break
+                } 
+                if (i == fetchCount - 1) {
+                    return await result[99].id
+                } else {
+                    untilId = await result[99].id
+                    fetchParam2 = await changeArrayParam(hashtag, 100, untilId)
+                }
+            }
+        }
+
     } else {
-        remainder = qid * 5
-    }
 
-    var fetchParam = await changeParam(MISSKEYID, hashtag, remainder)
-
-    var data = await fetch(fetchUrl, fetchParam)
-    var result = await data.json()
-    var untilId = await result[remainder - 1].id
-    if (fetchCount == 0) {
-        return await untilId
-    } else {
-        var fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
-
-        for (var i=0; i<fetchCount; i++) {
-            data = await fetch(fetchUrl, fetchParam2)
-            result = await data.json()
-            if (result.length < 100) {
-                break
-            } 
-            if (i == fetchCount - 1) {
-                return await result[99].id
-            } else {
-                untilId = await result[99].id
-                fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
+        var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
+        var fetchCount = 0
+        var remainder = 0
+        if (!qid || qid == 0) {
+            return ''
+        } else if (qid > 20) {
+            fetchCount = Math.floor((qid * 5)/100)
+            remainder = (qid * 5) % 100
+        } else {
+            remainder = qid * 5
+        }
+    
+        var fetchParam = await changeParam(MISSKEYID, hashtag, remainder)
+    
+        var data = await fetch(fetchUrl, fetchParam)
+        var result = await data.json()
+        var untilId = await result[remainder - 1].id
+        if (fetchCount == 0) {
+            return await untilId
+        } else {
+            var fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
+    
+            for (var i=0; i<fetchCount; i++) {
+                data = await fetch(fetchUrl, fetchParam2)
+                result = await data.json()
+                if (result.length < 100) {
+                    break
+                } 
+                if (i == fetchCount - 1) {
+                    return await result[99].id
+                } else {
+                    untilId = await result[99].id
+                    fetchParam2 = await changeParam(MISSKEYID, hashtag, 100, untilId)
+                }
             }
         }
     }
@@ -1902,8 +1974,8 @@ async function parseYourJSON(json) {
                     }
                 }
     
-                var hashTagQuery = cList[page].hashtag
-                if (hashTagQuery != '') {
+                var workHashTagQuery = [[cList[page].hashtag, json.info.mainHashtag, LANG.FINISHEDWORK]]
+                if (workHashTagQuery[0][0] != '') {
                     document.querySelector('#collectiontitle').innerHTML = '<h1>관련 작품 모음</h1>'
                     document.querySelector('#worktitle').innerHTML = '<h2>'+LANG.FINISHEDWORK+'</h2>'
                     document.querySelector('#drafttitle').innerHTML = '<h2>'+LANG.DRAFT+'</h2>'
@@ -1917,7 +1989,7 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: hashTagQuery+' #'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
+                                query: workHashTagQuery,
                                 userId: MISSKEYID,
                                 limit: 5
                             })
@@ -1930,10 +2002,9 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: hashTagQuery+' #'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK,
-                                userId: MISSKEYID,
+                                query: workHashTagQuery,
                                 limit: 5,
-                                untilId: await fetchAgain(workqid, hashTagQuery, MISSKEYID)
+                                untilId: await fetchAgain(workqid, workHashTagQuery, MISSKEYID)
                             })
                         }
                         document.querySelector('#workqid').innerHTML = '<a href="./?page='+page+'&qid='+(workqid-1)+','+draftqid+'">'+LANG.PREV+'</a> · '+workqid+' · <a href="./?page='+page+'&qid='+(workqid+1)+','+draftqid+'">'+LANG.NEXT+'</a>'
@@ -1952,6 +2023,7 @@ async function parseYourJSON(json) {
                         }
                     })
     
+                    var draftHashTagQuery = [[cList[page].hashtag, json.info.mainHashtag, LANG.DRAFT]]
                     var findDraftsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
                     var findDraftsParam
                     if (!draftqid || draftqid == 0 ) {
@@ -1961,7 +2033,7 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: hashTagQuery+' #'+json.info.mainHashtag+' #'+LANG.DRAFT,
+                                query: draftHashTagQuery,
                                 userId: MISSKEYID,
                                 limit: 5
                             })
@@ -1974,7 +2046,7 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: hashTagQuery+' #'+json.info.mainHashtag+' #'+LANG.DRAFT,
+                                query: draftHashTagQuery,
                                 userId: MISSKEYID,
                                 limit: 5,
                                 untilId: await fetchAgain(draftqid, hashTagQuery, MISSKEYID)
