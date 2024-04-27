@@ -536,7 +536,9 @@ function changeArrayParam(query, limit, untilId='') {
 
 async function fetchAgain(qid, hashtag, MISSKEYID = '') {
 
-    if (Array.isArray(hashtag)) {
+    console.log(MISSKEYID)
+
+    if (MISSKEYID == '') {
 
         var fetchUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
         var fetchCount = 0
@@ -1980,7 +1982,7 @@ async function parseYourJSON(json) {
                     document.querySelector('#worktitle').innerHTML = '<h2>'+LANG.FINISHEDWORK+'</h2>'
                     document.querySelector('#drafttitle').innerHTML = '<h2>'+LANG.DRAFT+'</h2>'
     
-                    var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
+                    var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
                     var findArtsParam
                     if (!workqid || workqid == 0 ) {
                         findArtsParam = {
@@ -2003,7 +2005,7 @@ async function parseYourJSON(json) {
                             body: JSON.stringify({
                                 query: workHashTagQuery,
                                 limit: 5,
-                                untilId: await fetchAgain(workqid, workHashTagQuery, MISSKEYID)
+                                untilId: await fetchAgain(workqid, workHashTagQuery)
                             })
                         }
                         document.querySelector('#workqid').innerHTML = '<a href="./?page='+page+'&qid='+(workqid-1)+','+draftqid+'">'+LANG.PREV+'</a> · '+workqid+' · <a href="./?page='+page+'&qid='+(workqid+1)+','+draftqid+'">'+LANG.NEXT+'</a>'
@@ -2025,7 +2027,7 @@ async function parseYourJSON(json) {
                     })
     
                     var draftHashTagQuery = [[cList[page].hashtag, json.info.mainHashtag, LANG.DRAFT]]
-                    var findDraftsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
+                    var findDraftsUrl = 'https://'+MISSKEYHOST+'/api/notes/search-by-tag'
                     var findDraftsParam
                     if (!draftqid || draftqid == 0 ) {
                         findDraftsParam = {
