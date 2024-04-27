@@ -1685,9 +1685,10 @@ async function parseYourJSON(json) {
 
                 //사명 (txtinput)
                 var temporaryGoalCount = cList[page].goal.length
-                var temporaryGoalValueArray = cList[page].goal
+                var temporaryGoalValueArray = []
                 for (var i=0; i<cList[page].goal.length; i++) {
-                    document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput goal" id="cGoalEditor'+i+'"><label id="cGoalLabel'+i+'" for="cGoal'+i+'">'+(i+1)+' :</label> <input name="cGoal'+i+'" id="cGoal'+i+'" value="'+temporaryGoalValueArray[i]+'"></div>'
+                    temporaryGoalValueArray[i] = cList[page].goal[i]
+                    document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput goal" id="cGoalEditor'+i+'"><label id="cGoalLabel'+i+'" for="cGoal'+i+'">'+(i+1)+' :</label> <input name="cGoal'+i+'" id="cGoal'+i+'" value="'+temporaryGoalValueArray[i]+'" ></div>'
                 }
 
                 //포지션 (틀 생성)
