@@ -2013,12 +2013,14 @@ async function parseYourJSON(json) {
                     .then((artsData) => {return artsData.json()})
                     .then((artsRes) => {
                         for (var i = 0; i<artsRes.length; i++){
-                            if (artsRes[i].files.length == 0) {
-                                document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><div class="overflowhidden" id="work'+i+'"></div></a></div>'
-                                if (artsRes[i].cw) document.querySelector('#work'+i).innerHTML = '</h1>'+artsRes[i].cw+'</h1>'
-                                document.querySelector('#work'+i).innerHTML += parseMd(artsRes[i].text)
-                            } else {
-                                document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><img src="'+artsRes[i].files[0].url+'"></a></div>'
+                            if (artsRes[i].user.username == MISSKEYUSER) {
+                                if (artsRes[i].files.length == 0) {
+                                    document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><div class="overflowhidden" id="work'+i+'"></div></a></div>'
+                                    if (artsRes[i].cw) document.querySelector('#work'+i).innerHTML = '</h1>'+artsRes[i].cw+'</h1>'
+                                    document.querySelector('#work'+i).innerHTML += parseMd(artsRes[i].text)
+                                } else {
+                                    document.querySelector('#worklist').innerHTML += '<div class="collectionel"><a href="./?note='+artsRes[i].id+'"><img src="'+artsRes[i].files[0].url+'"></a></div>'
+                                }
                             }
                         }
                     })
@@ -2058,12 +2060,14 @@ async function parseYourJSON(json) {
                     .then((draftsData) => {return draftsData.json()})
                     .then((draftsRes) => {
                         for (var i = 0; i<draftsRes.length; i++){
-                            if (draftsRes[i].files.length == 0) {
-                                document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><div class="overflowhidden" id="draft'+i+'"></div></a></div>'
-                                if (draftsRes[i].cw) document.querySelector('#draft'+i).innerHTML = '</h1>'+draftsRes[i].cw+'</h1>'
-                                document.querySelector('#draft'+i).innerHTML += parseMd(draftsRes[i].text)
-                            } else {
-                                document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><img src="'+draftsRes[i].files[0].url+'"></a></div>'
+                            if (draftsRes[i].user.username == MISSKEYUSER) {
+                                if (draftsRes[i].files.length == 0) {
+                                    document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><div class="overflowhidden" id="draft'+i+'"></div></a></div>'
+                                    if (draftsRes[i].cw) document.querySelector('#draft'+i).innerHTML = '</h1>'+draftsRes[i].cw+'</h1>'
+                                    document.querySelector('#draft'+i).innerHTML += parseMd(draftsRes[i].text)
+                                } else {
+                                    document.querySelector('#draftlist').innerHTML += '<div class="collectionel"><a href="./?note='+draftsRes[i].id+'"><img src="'+draftsRes[i].files[0].url+'"></a></div>'
+                                }
                             }
                         }
                     })
