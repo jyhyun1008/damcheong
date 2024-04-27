@@ -680,6 +680,13 @@ function loadBackground(json) {
     })
 }
 
+function addTemporaryValues(queryText, index) {
+    document.querySelector(queryText+index).addEventListener("input", (e) => {
+        document.querySelector(queryText+index).setAttribute("value", e.target.value)
+        temporaryEventKeyArray[index] = e.target.value
+    })
+}
+
 var temporaryRelatedToCharacterCount = []
 
 function addRelatedTo(num) {
@@ -1419,14 +1426,8 @@ async function parseYourJSON(json) {
                     temporaryEventCount += 1
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
-                        document.querySelector('#cEventLabel'+i).addEventListener("input", (e) => {
-                            document.querySelector('#cEventLabel'+i).setAttribute("value", e.target.value)
-                          // temporaryEventKeyArray[i] = e.target.value
-                        })
-                        document.querySelector('#cEvent'+i).addEventListener("input", (e) => {
-                            document.querySelector('#cEvent'+i).setAttribute("value", e.target.value)
-                           // temporaryEventValueArray[i] = e.target.value
-                        })
+                        addTemporaryValues('#cEventLabel',i)
+                        addTemporaryValues('#cEvent',i)
                     }
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
@@ -1436,12 +1437,8 @@ async function parseYourJSON(json) {
                     }
 
                     for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
-                        document.querySelector('#cEventLabel'+i).addEventListener("input", (e) => {
-                            temporaryEventKeyArray[i] = e.target.value
-                        })
-                        document.querySelector('#cEvent'+i).addEventListener("input", (e) => {
-                            temporaryEventValueArray[i] = e.target.value
-                        })
+                        addTemporaryValues('#cEventLabel',i)
+                        addTemporaryValues('#cEvent',i)
                     }
                 })
 
