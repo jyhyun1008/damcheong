@@ -1795,6 +1795,9 @@ async function parseYourJSON(json) {
                 })
 
                 //사명 이벤트리스너
+                for (var i=0; i<document.querySelectorAll('.multiLineGoalInput').length; i++) {
+                    addTemporaryValues('#cGoal',i, temporaryGoalValueArray)
+                }
                 document.querySelector('#addGoal').addEventListener("click", (e) => {
                     document.querySelector('#goal').innerHTML += '<div class="multiLineGoalInput" id="cGoalEditor'+temporaryGoalCount+'"><label id="cGoalLabel'+temporaryGoalCount+'" for="cGoal'+temporaryGoalCount+'">'+(temporaryGoalCount+1)+' :</label>  <input name="cGoal'+temporaryGoalCount+'" id="cGoal'+temporaryGoalCount+'"></div>'
                     temporaryGoalCount += 1
