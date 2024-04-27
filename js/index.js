@@ -1416,21 +1416,31 @@ async function parseYourJSON(json) {
                 document.querySelector('#addEvent').addEventListener("click", (e) => {
                     document.querySelector('#event').innerHTML += '<div class="multiLineEventInput" id="cEventEditor'+temporaryEventCount+'"><input class="key event" name="cEventLabel'+temporaryEventCount+'" id="cEventLabel'+temporaryEventCount+'" value="0"> <input name="cEvent'+temporaryEventCount+'" id="cEvent'+temporaryEventCount+'"></div>'
                     temporaryEventCount += 1
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                        document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
+                            temporaryEventKeyArray[i] = document.querySelector('#cEventLabel'+i).value
+                        })
+                        document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
+                            temporaryEventValueArray[i] = document.querySelector('#cEvent'+i).value
+                        })
+                    }
                 })
                 document.querySelector('#deleteEvent').addEventListener("click", (e) => {
                     if (temporaryEventCount > 0) {
                         temporaryEventCount -= 1
                         document.querySelector('#cEventEditor'+temporaryEventCount).remove()    
                     }
+
+                    for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
+                        document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
+                            temporaryEventKeyArray[i] = document.querySelector('#cEventLabel'+i).value
+                        })
+                        document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
+                            temporaryEventValueArray[i] = document.querySelector('#cEvent'+i).value
+                        })
+                    }
                 })
-                for (var i=0; i<document.querySelectorAll('.multiLineEventInput').length; i++) {
-                    document.querySelector('#cEventLabel'+i).addEventListener("change", (e) => {
-                        temporaryEventKeyArray[i] = document.querySelector('#cEventLabel'+i).value
-                    })
-                    document.querySelector('#cEvent'+i).addEventListener("change", (e) => {
-                        temporaryEventValueArray[i] = document.querySelector('#cEvent'+i).value
-                    })
-                }
 
                 //인간관계 이벤트리스너
 
