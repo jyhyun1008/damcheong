@@ -2315,7 +2315,7 @@ async function parseYourJSON(json) {
                 }
     
                 if (cList[page].hashtag) {
-                    document.querySelector('#collectiontitle').innerHTML = '<h1>관련 작품 모음</h1>'
+                    document.querySelector('#collectiontitle').innerHTML = '<h1>'+LANG.RELATEDTO+'</h1>'
     
                     var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
                     var findArtsParam
@@ -2438,6 +2438,75 @@ async function parseYourJSON(json) {
         fetch(findNotesUrl, findNotesParam)
         .then((notesData) => {return notesData.json()})
         .then((notesRes) => {
+
+            if (notesRes.tags.inclues(LANG.REFERENCE)) {
+
+                document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"></div>'
+                document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
+
+                var tagQuery = notesRes.tags[0]
+                document.querySelector('#collectiontitle').innerHTML = '<h1>'+LANG.RELATEDTO+'</h1>'
+
+                var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
+                var findArtsParam
+                if (isLogin) {
+                    findArtsParam = {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            i: token,
+                            query: '#'+tagQuery,
+                            userId: MISSKEYID,
+                            limit: 100
+                        })
+                    }
+                } else {
+                    findArtsParam = {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            query: '#'+tagQuery,
+                            userId: MISSKEYID,
+                            limit: 100
+                        })
+                    }
+                }
+                fetch(findArtsUrl, findArtsParam)
+                .then((notesData) => {return notesData.json()})
+                .then((notesRes) => {
+                    if (notesRes.length == 100) {
+                        untilId.l = notesRes[99].id
+                        document.querySelector('.collectionworkqid').innerHTML = '<span class="bold" onclick="findNoteAgain(`'+json.info.mainHashtag+' #'+LANG.FINISHEDWORK+'`,`'+untilId.l+'`,document.querySelector(`.collectionworklist`),document.querySelector(`.collectionworkqid`),`'+MISSKEYID+'`);">더 불러오기</span>'
+                    } else {
+                        document.querySelector('.collectionworkqid').innerHTML = '<span class="bold">마지막입니다</span>'
+                    }
+
+                    notesRes.sort(function (a, b) {
+                        if (a.cw > b.cw) {
+                          return 1;
+                        }
+                        if (a.cw < b.cw) {
+                          return -1;
+                        }
+                        return 0;
+                    })
+        
+                    for (var i = 0; i<notesRes.length; i++){
+        
+                        if (notesRes[i].files.length == 0) {
+                            document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                            if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
+                            document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                        } else {
+                            document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
+                        }
+                    }
+                })
+            }
 
             if (mode == 'edit' && isLogin) {
 
