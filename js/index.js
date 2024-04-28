@@ -1509,7 +1509,7 @@ async function parseYourJSON(json) {
                             },
                             body: JSON.stringify({
                                 i: token,
-                                query: bookInfo.hashtag,
+                                query: '#'+bookInfo.hashtag,
                                 userId: MISSKEYID,
                                 limit: 100
                             })
@@ -1521,7 +1521,7 @@ async function parseYourJSON(json) {
                                 'content-type': 'application/json',
                             },
                             body: JSON.stringify({
-                                query: bookInfo.hashtag,
+                                query: '#'+bookInfo.hashtag,
                                 userId: MISSKEYID,
                                 limit: 100
                             })
