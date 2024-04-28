@@ -578,6 +578,11 @@ select {
     text-align: left;
 }
 
+.stackedit-iframe-container {
+    max-height: 400px !important;
+    max-width: 500px !important;
+}
+
 @media only screen and (max-width: 1000px) {
     #title-box {    
         height: 70px;
