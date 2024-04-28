@@ -958,7 +958,7 @@ async function parseYourJSON(json) {
             document.querySelector('.editform').innerHTML += '<div class="editordiv"><label for="cTitle"><span class="bold">'+LANG.TITLE+'</span></label> <input type="text" id="cTitle" name="cTitle""></div>'
 
             //완성작 및 초안 선택
-            document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType"><option value=" #'+LANG.FINISHEDWORK+'">'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'">'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
+            document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType" onchange="changeRelatedToSelection(`relatedTo`)><option value=" #'+LANG.FINISHEDWORK+'">'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'">'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
 
             //연관 캐릭터 (틀 생성)
             temporaryRelatedTo.count = 0
@@ -979,8 +979,14 @@ async function parseYourJSON(json) {
             //연관 캐릭터 이벤트 리스너
             document.querySelector('#addRelatedTo').addEventListener("click", (e) => {
                 document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedTo.count+'"><label id="cRelatedToLabel'+temporaryRelatedTo.count+'" for="cRelatedTo'+temporaryRelatedTo.count+'">'+(temporaryRelatedTo.count+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedTo.count+'" id="cRelatedTo'+temporaryRelatedTo.count+'" class="relatedTo" ></select></div>'
-                for (var j=0; j<json.character.list.length; j++) {
-                    document.querySelector('#cRelatedTo'+temporaryRelatedTo.count).innerHTML += '<option value="'+j+'">'+json.character.list[j].name+'</option>'
+                if (document.querySelector('#cType').value == ' #'+LANG.REFERENCE) {
+                    for (var j=0; j<json.reference.length; j++) {
+                        document.querySelector('#relatedTo'+temporaryRelatedTo.count).innerHTML += '<option value="'+j+'">'+json.reference[j].title+'</option>'
+                    }
+                } else {
+                    for (var j=0; j<json.character.list.length; j++) {
+                        document.querySelector('#relatedTo'+temporaryRelatedTo.count).innerHTML += '<option value="'+j+'">'+json.character.list[j].name+'</option>'
+                    }
                 }
                 temporaryRelatedTo.count += 1
             })
@@ -1038,7 +1044,7 @@ async function parseYourJSON(json) {
                 var cType = document.querySelector('#cType').value.replace(/\/g, '')
                 var cRelatedTo = []
                 for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
-                    var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
+                    var cIndex = parseInt(document.querySelector('#relatedTo'+j).value.replace(/\/g, ''))
                     cRelatedTo[j] = json.character.list[cIndex].hashtag
                 }
                 var cRelatedText = cRelatedTo.join(' #')
@@ -2429,8 +2435,7 @@ async function parseYourJSON(json) {
         .then((notesData) => {return notesData.json()})
         .then((notesRes) => {
 
-            if (mode == 'edit') {
-            //if (mode == 'edit' && isLogin) {
+            if (mode == 'edit' && isLogin) {
 
                 var isSaved = false
                 window.onbeforeunload = function(){
@@ -2461,11 +2466,6 @@ async function parseYourJSON(json) {
                     document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType" onchange="changeRelatedToSelection(`relatedTo`)"><option value=" #'+LANG.FINISHEDWORK+'" selected>'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'">'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
 
                     temporaryRelatedTo.count = relatedItem.c.length
-                    console.log('여기')
-                    // document.querySelector('#cType').addEventListener("change", (e) => {
-                    //     console.log('바뀜')
-                    //     changeRelatedToSelection(e.target.value, 'relatedTo', relatedCharacter, relatedBook)
-                    // })
                 } else if (notesRes.tags.includes(LANG.REFERENCE)) {
                     document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType"><option value=" #'+LANG.FINISHEDWORK+'">'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'" selected>'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
                     
@@ -2505,8 +2505,6 @@ async function parseYourJSON(json) {
                         }
                     }
                 }
-
-                //document.querySelector('#cType').onchange = 
     
                 //공개 범위 (홈, 홈로컬, 비공개)
                 if (notesRes.visibility == 'home' && !notesRes.localOnly) {
@@ -2604,7 +2602,7 @@ async function parseYourJSON(json) {
                     var cType = document.querySelector('#cType').value.replace(/\/g, '')
                     var cRelatedTo = []
                     for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
-                        var cIndex = parseInt(document.querySelector('#cRelatedTo'+j).value.replace(/\/g, ''))
+                        var cIndex = parseInt(document.querySelector('#relatedTo'+j).value.replace(/\/g, ''))
                         cRelatedTo[j] = json.character.list[cIndex].hashtag
                     }
                     var cRelatedText = cRelatedTo.join(' #')
