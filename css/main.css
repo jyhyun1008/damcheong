@@ -7,6 +7,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'IBMPlexSansKR-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
 :root {
     --accent: #000000;
 }
@@ -388,7 +395,8 @@ ul li:before {
 .bold {
     display:inline-block;
     min-width: 100px;
-    font-weight: bold;
+    font-family: 'IBMPlexSansKR-Bold';
+    font-weight: 500;
     padding: 5px;
     background-color: var(--lightaccent);
     border-radius: 10px;
@@ -538,8 +546,8 @@ textarea.summary {
     padding: 5px 0;
 }
 
-strong, b, h3, h4, h5, h6 {
-    text-shadow: 0.2px 0.2px, -0.2px -0.2px, -0.2px 0.2px, 0.2px -0.2px;
+strong, b, h1, h2, h3, h4, h5, h6 {
+    font-family: 'IBMPlexSansKR-Bold';
 }
 
 .collectionqid {
