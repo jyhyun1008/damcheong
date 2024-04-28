@@ -1044,7 +1044,7 @@ async function parseYourJSON(json) {
                 stackedit.openFile({
                     name: 'Filename', // with an optional filename
                     content: {
-                    text: document.querySelector('#cContent').value.replace(/\n{3,}/gm, '\n') // and the Markdown content.
+                    text: document.querySelector('#cContent').value.replace(/\n{3,}/gm, '\n\n') // and the Markdown content.
                     }
                 })
   
@@ -2703,7 +2703,7 @@ async function parseYourJSON(json) {
                     stackedit.openFile({
                         name: 'Filename', // with an optional filename
                         content: {
-                        text: document.querySelector('#cContent').value.replace(/\n{3,}/gm, '\n') // and the Markdown content.
+                        text: document.querySelector('#cContent').value.replace(/\n{3,}/gm, '\n\n') // and the Markdown content.
                         }
                     })
       
