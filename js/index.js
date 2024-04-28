@@ -1049,7 +1049,7 @@ async function parseYourJSON(json) {
                 })
   
                 stackedit.on('fileChange', (file) => {
-                    document.querySelector('#cContent').value = file.content.text.replace(/\n\n([\-\*\#0-9\>\|\=\s]+)/gm, '\n$1').replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
+                    document.querySelector('#cContent').value = file.content.text.replace(/\n\n/gm, '\n').replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
                 })
 
             })
@@ -2708,7 +2708,7 @@ async function parseYourJSON(json) {
                     })
       
                     stackedit.on('fileChange', (file) => {
-                        document.querySelector('#cContent').value = file.content.text.replace(/\n\n([\-\*\#0-9\>\|\=\s]+)/gm, '\n$1').replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
+                        document.querySelector('#cContent').value = file.content.text.replace(/\n\n/gm, '\n').replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
                     })
     
                 })
