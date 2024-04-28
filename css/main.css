@@ -579,7 +579,7 @@ select {
 }
 
 .stackedit-iframe-container {
-    max-height: 400px !important;
+    /*max-height: 400px !important;*/
     max-width: 500px !important;
 }
 
