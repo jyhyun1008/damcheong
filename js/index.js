@@ -958,7 +958,7 @@ async function parseYourJSON(json) {
             document.querySelector('.editform').innerHTML += '<div class="editordiv"><label for="cTitle"><span class="bold">'+LANG.TITLE+'</span></label> <input type="text" id="cTitle" name="cTitle""></div>'
 
             //완성작 및 초안 선택
-            document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType" onchange="changeRelatedToSelection(`relatedTo`)><option value=" #'+LANG.FINISHEDWORK+'">'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'">'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
+            document.querySelector('.editform').innerHTML += '<div class="editordiv"><span class="bold">'+LANG.WORKTYPE+'</span> <select name="cType" id="cType" onchange="changeRelatedToSelection(`relatedTo`)"><option value=" #'+LANG.FINISHEDWORK+'">'+LANG.FINISHEDWORK+'</option><option value=" #'+LANG.REFERENCE+'">'+LANG.REFERENCE+'</option><option value=" #'+LANG.DRAFT+'">'+LANG.DRAFT+'</option></select></div>'
 
             //연관 캐릭터 (틀 생성)
             temporaryRelatedTo.count = 0
