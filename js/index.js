@@ -1045,7 +1045,11 @@ async function parseYourJSON(json) {
                 var cRelatedTo = []
                 for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                     var cIndex = parseInt(document.querySelector('#relatedTo'+j).value.replace(/\/g, ''))
-                    cRelatedTo[j] = json.character.list[cIndex].hashtag
+                    if (cType == ' #'+LANG.REFERENCE) {
+                        cRelatedTo[j] = json.reference[cIndex].hashtag
+                    } else {
+                        cRelatedTo[j] = json.character.list[cIndex].hashtag
+                    }
                 }
                 var cRelatedText = cRelatedTo.join(' #')
                 var cVisibility = document.querySelector('#cVisibility').value.replace(/\/g, '')
@@ -2603,7 +2607,11 @@ async function parseYourJSON(json) {
                     var cRelatedTo = []
                     for (var j=0; j < document.querySelectorAll('.relatedTo').length; j++) {
                         var cIndex = parseInt(document.querySelector('#relatedTo'+j).value.replace(/\/g, ''))
-                        cRelatedTo[j] = json.character.list[cIndex].hashtag
+                        if (cType == ' #'+LANG.REFERENCE) {
+                            cRelatedTo[j] = json.reference[cIndex].hashtag
+                        } else {
+                            cRelatedTo[j] = json.character.list[cIndex].hashtag
+                        }
                     }
                     var cRelatedText = cRelatedTo.join(' #')
                     var cVisibility = document.querySelector('#cVisibility').value.replace(/\/g, '')
