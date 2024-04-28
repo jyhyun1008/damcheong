@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Serif+KR:wght@700&display=swap');
+
 @font-face {
     font-family: 'Orbit-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
@@ -77,6 +79,7 @@ body {
 #title a {
     text-decoration: none;
     color: inherit;
+    font-family: "Noto Serif KR", "Noto Serif JP", serif;
 }
 
 #world-box {
@@ -323,6 +326,7 @@ ul li {
 
 ol li {
     margin-left: 10px;
+    padding: 5px 0;
 }
 
 ul {
@@ -332,6 +336,10 @@ ul {
 ul li:before {
     content: "+";
     padding-right: 5px;
+}
+
+.noteContent {
+    line-height: 1.8em;
 }
 
 .noteContent table {
@@ -595,6 +603,12 @@ select {
 .stackedit-iframe-container {
     /*max-height: 400px !important;*/
     max-width: 640px !important;
+}
+
+blockquote {
+    border-left: 3px solid white;
+    margin: 1em 0;
+    padding-left: 1em;
 }
 
 @media only screen and (max-width: 1000px) {
