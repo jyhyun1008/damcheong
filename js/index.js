@@ -2452,7 +2452,7 @@ async function parseYourJSON(json) {
 
                 document.querySelector('#popup-content').innerHTML += '<div id="bookInfo"></div>'
                 document.querySelector('#bookInfo').innerHTML = '<h1>'+LANG.INFO+'</h1>'
-                document.querySelector('#bookInfo').innerHTML = '<a href="./?book'+refIndex+'"><span class="bold">'+json.reference[refIndex].title+'</span></a>'
+                document.querySelector('#bookInfo').innerHTML += '<a href="./?page=book'+refIndex+'"><span class="bold">'+json.reference[refIndex].title+'</span></a>'
 
                 document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"></div>'
                 document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
