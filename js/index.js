@@ -2441,10 +2441,22 @@ async function parseYourJSON(json) {
 
             if (notesRes.tags.includes(LANG.REFERENCE)) {
 
+                var tagQuery = notesRes.tags[0]
+
+                var refIndex
+                for (var i=0; i<json.reference.length; i++){
+                    if ( tagQuery == json.reference[i].hashtag) {
+                        refIndex = i
+                    }
+                }
+
+                document.querySelector('#popup-content').innerHTML += '<div id="bookInfo"></div>'
+                document.querySelector('#bookInfo').innerHTML = '<h1>'+LANG.INFO+'</h1>'
+                document.querySelector('#bookInfo').innerHTML = '<a href="./?book'+refIndex+'"><span class="bold">'+json.reference[refIndex].title+'</span></a>'
+
                 document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"></div>'
                 document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
 
-                var tagQuery = notesRes.tags[0]
                 document.querySelector('#collectiontitle').innerHTML = '<h1>'+LANG.RELATEDTO+'</h1>'
 
                 var findArtsUrl = 'https://'+MISSKEYHOST+'/api/notes/search'
