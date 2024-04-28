@@ -163,135 +163,135 @@ var example = {
 var json
 if (localStorage.getItem('json')) json = JSON.parse(localStorage.getItem('json'))
 
-//마크다운 파싱
-function parseMd(md){
+// //마크다운 파싱
+// function parseMd(md){
 
-    md = "\n"+md+"\n\n"
-    var md0 = md;
+//     md = "\n"+md+"\n\n"
+//     var md0 = md;
 
-    md = md.replace(/\/g, '')
+//     md = md.replace(/\/g, '')
 
-    md = md.replace(/\-\-\-/gm, 'ーーー')
+//     md = md.replace(/\-\-\-/gm, 'ーーー')
 
-    //checkbox
-    md = md.replace(/\-\s\[x\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox-square" ></i>$1</div>')
-    md = md.replace(/\-\s\[\s\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox" ></i>$1</div>')
+//     //checkbox
+//     md = md.replace(/\-\s\[x\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox-square" ></i>$1</div>')
+//     md = md.replace(/\-\s\[\s\]([^\[].+)/gm, '<div class="checkbox-container"><i class="bx bx-checkbox" ></i>$1</div>')
 
-    //ul
-    md = md.replace(/^\s*\n\*\s/gm, '<ul>\n* ');
-    md = md.replace(/\n\*\s(.+)\n\n/gm, '\n* $1\n</ul>\n\n');
-    md = md.replace(/^\*\s(.+)/gm, '<li>$1</li>');
-    while (md.includes('  * ')) {
-        md = md.replace(/\<\/li\>\n\s\s\*\s/gm, '</li>\n<ul>\n  * ')
-        md = md.replace(/\s\s\*\s(.+)\n\<\/ul\>/gm, '  \* $1\n</ul>\n</ul>')
-        md = md.replace(/\s\s\*\s(.+)\n\<li\>/gm, '  \* $1\n</ul>\n<li>')
-        md = md.replace(/\n\s\s\*\s(.+)/gm, '<li>$1</li>');
-        md = md.replace(/\s\s\*\s/gm, '* ')
-    }
+//     //ul
+//     md = md.replace(/^\s*\n\*\s/gm, '<ul>\n* ');
+//     md = md.replace(/\n\*\s(.+)\n\n/gm, '\n* $1\n</ul>\n\n');
+//     md = md.replace(/^\*\s(.+)/gm, '<li>$1</li>');
+//     while (md.includes('  * ')) {
+//         md = md.replace(/\<\/li\>\n\s\s\*\s/gm, '</li>\n<ul>\n  * ')
+//         md = md.replace(/\s\s\*\s(.+)\n\<\/ul\>/gm, '  \* $1\n</ul>\n</ul>')
+//         md = md.replace(/\s\s\*\s(.+)\n\<li\>/gm, '  \* $1\n</ul>\n<li>')
+//         md = md.replace(/\n\s\s\*\s(.+)/gm, '<li>$1</li>');
+//         md = md.replace(/\s\s\*\s/gm, '* ')
+//     }
 
-    //ul
-    md = md.replace(/^\s*\n\-\s/gm, '<ul>\n- ');
-    md = md.replace(/\-\s([^\-]+)\n\n/gm, '* $1\n</ul>\n\n');
-    md = md.replace(/^\-\s(.+)/gm, '<li>$1</li>');
-    while (md.includes('  - ')) {
-        md = md.replace(/\<\/li\>\n\s\s\-\s/gm, '</li>\n<ul>\n  - ')
-        md = md.replace(/\s\s\-\s(.+)\n\<\/ul\>/gm, '  \- $1\n</ul>\n</ul>')
-        md = md.replace(/\s\s\-\s(.+)\n\<li\>/gm, '  \- $1\n</ul>\n<li>')
-        md = md.replace(/\n\s\s\-\s(.+)/gm, '<li>$1</li>');
-        md = md.replace(/\s\s\-\s/gm, '- ')
-    }
-    md = md.replace(/([^\>]+)\n\<li\>/gm, '$1\n<ul>\n<li>')
+//     //ul
+//     md = md.replace(/^\s*\n\-\s/gm, '<ul>\n- ');
+//     md = md.replace(/\-\s([^\-]+)\n\n/gm, '* $1\n</ul>\n\n');
+//     md = md.replace(/^\-\s(.+)/gm, '<li>$1</li>');
+//     while (md.includes('  - ')) {
+//         md = md.replace(/\<\/li\>\n\s\s\-\s/gm, '</li>\n<ul>\n  - ')
+//         md = md.replace(/\s\s\-\s(.+)\n\<\/ul\>/gm, '  \- $1\n</ul>\n</ul>')
+//         md = md.replace(/\s\s\-\s(.+)\n\<li\>/gm, '  \- $1\n</ul>\n<li>')
+//         md = md.replace(/\n\s\s\-\s(.+)/gm, '<li>$1</li>');
+//         md = md.replace(/\s\s\-\s/gm, '- ')
+//     }
+//     md = md.replace(/([^\>]+)\n\<li\>/gm, '$1\n<ul>\n<li>')
     
-    //ol
-    md = md.replace(/^\s*\n\d\.\s/gm, '<ol>\n1. ');
-    md = md.replace(/^(\d\.\s.+)\s*\n([^\d\.])/gm, '$1\n</ol>\n$2');
-    md = md.replace(/^\d\.\s(.+)/gm, '<li>$1</li>');
+//     //ol
+//     md = md.replace(/^\s*\n\d\.\s/gm, '<ol>\n1. ');
+//     md = md.replace(/^(\d\.\s.+)\s*\n([^\d\.])/gm, '$1\n</ol>\n$2');
+//     md = md.replace(/^\d\.\s(.+)/gm, '<li>$1</li>');
     
-    //blockquote
-    md = md.replace(/^\>\s(.+)/gm, '<blockquote>$1</blockquote>');
-    md = md.replace(/\<\/blockquote\>\<blockquote\>/gm, '\n\n');
-    md = md.replace(/\<\/blockquote>\n<blockquote\>/gm, '\n\n');
+//     //blockquote
+//     md = md.replace(/^\>\s(.+)/gm, '<blockquote>$1</blockquote>');
+//     md = md.replace(/\<\/blockquote\>\<blockquote\>/gm, '\n\n');
+//     md = md.replace(/\<\/blockquote>\n<blockquote\>/gm, '\n\n');
     
-    //h
-    md = md.replace(/\n[\#]{6}\s(.+)/g, '<h6>$1</h6>');
-    md = md.replace(/\n[\#]{5}\s(.+)/g, '<h5>$1</h5>');
-    md = md.replace(/\n[\#]{4}\s(.+)/g, '<h4>$1</h4>');
-    md = md.replace(/\n[\#]{3}\s(.+)/g, '<h3>$1</h3>');
-    md = md.replace(/\n[\#]{2}\s([\s\S]+)[ー]{3}/g, '<div class="pflex">\n\#\# $1ーーー</div>');
-    md = md.replace(/\n[\#]{2}(.+)[\:]{2}(.+)\n([^ー]+)[ー]{3}/g, '<div class="pgroup $2"><h2 class="pgroup-title">$1</h2><div class="pgroup-content">$3</div></div>');
-    md = md.replace(/\n[\#]{2}(.+)\n([^ー]+)[ー]{3}/g, '<div class="pgroup"><h2 class="pgroup-title">$1</h2><div class="pgroup-content">$2</div></div>');
-    md = md.replace(/\n[\#]{2}\s(.+)/g, '<h2>$1</h2>');
-    md = md.replace(/\n[\#]{1}\s(.+)/g, '</div></div><div class="item_wrap"><div class="item"><h1 class="h1">$1</h1>');
+//     //h
+//     md = md.replace(/\n[\#]{6}\s(.+)/g, '<h6>$1</h6>');
+//     md = md.replace(/\n[\#]{5}\s(.+)/g, '<h5>$1</h5>');
+//     md = md.replace(/\n[\#]{4}\s(.+)/g, '<h4>$1</h4>');
+//     md = md.replace(/\n[\#]{3}\s(.+)/g, '<h3>$1</h3>');
+//     md = md.replace(/\n[\#]{2}\s([\s\S]+)[ー]{3}/g, '<div class="pflex">\n\#\# $1ーーー</div>');
+//     md = md.replace(/\n[\#]{2}(.+)[\:]{2}(.+)\n([^ー]+)[ー]{3}/g, '<div class="pgroup $2"><h2 class="pgroup-title">$1</h2><div class="pgroup-content">$3</div></div>');
+//     md = md.replace(/\n[\#]{2}(.+)\n([^ー]+)[ー]{3}/g, '<div class="pgroup"><h2 class="pgroup-title">$1</h2><div class="pgroup-content">$2</div></div>');
+//     md = md.replace(/\n[\#]{2}\s(.+)/g, '<h2>$1</h2>');
+//     md = md.replace(/\n[\#]{1}\s(.+)/g, '</div></div><div class="item_wrap"><div class="item"><h1 class="h1">$1</h1>');
 
-    //hr
-    md = md.replace(/[ー]{3}/g, '</div></div><div class="item_wrap"><div class="line">✿--✿--✿</div><div class="item">');
+//     //hr
+//     md = md.replace(/[ー]{3}/g, '</div></div><div class="item_wrap"><div class="line">✿--✿--✿</div><div class="item">');
     
-    //images with links
-    md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<div class="gallery"><a href="$3"><img src="$2" alt="$1" width="100%" /></a></div>');
+//     //images with links
+//     md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<div class="gallery"><a href="$3"><img src="$2" alt="$1" width="100%" /></a></div>');
 
-    //images with width
-    md = md.replace(/\!\[width\:([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" style="width:$1;" width="100%" />');
+//     //images with width
+//     md = md.replace(/\!\[width\:([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" style="width:$1;" width="100%" />');
     
-    //images
-    md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" width="100%" />');
+//     //images
+//     md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" width="100%" />');
     
-    //links
-    md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
+//     //links
+//     md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
     
-    //font styles
-    md = md.replace(/[\*]{2}([^\*]+)[\*]{2}/g, '<strong>$1</strong>');
-    md = md.replace(/[\*]{1}([^\*]+)[\*]{1}/g, '<i>$1</i>');
-    md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
+//     //font styles
+//     md = md.replace(/[\*]{2}([^\*]+)[\*]{2}/g, '<strong>$1</strong>');
+//     md = md.replace(/[\*]{1}([^\*]+)[\*]{1}/g, '<i>$1</i>');
+//     md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
 
-    //주석
-    md = md.replace(/\n[\/]{2}(.+)/g, '');
+//     //주석
+//     md = md.replace(/\n[\/]{2}(.+)/g, '');
     
-    //pre
-    var mdpos = [];
-    var rawpos = [];
-    let pos1 = -1;
-    let k = 0;
+//     //pre
+//     var mdpos = [];
+//     var rawpos = [];
+//     let pos1 = -1;
+//     let k = 0;
 
-    var diff = [0]
+//     var diff = [0]
 
-    while( (pos1 = md0.indexOf('\n```', pos1 + 1)) != -1 ) { 
-        if (k % 2 == 0){
-            rawpos[k] = pos1 + 4;
-        } else {
-            rawpos[k] = pos1;
-        }
-        k++;
-    }
+//     while( (pos1 = md0.indexOf('\n```', pos1 + 1)) != -1 ) { 
+//         if (k % 2 == 0){
+//             rawpos[k] = pos1 + 4;
+//         } else {
+//             rawpos[k] = pos1;
+//         }
+//         k++;
+//     }
 
-    let pos2 = -1;
-    let l = 0;
+//     let pos2 = -1;
+//     let l = 0;
 
-    while( (pos2 = md.indexOf('\n```', pos2 + 1)) != -1 ) { 
-        if (l % 2 == 0){
-            mdpos[l] = pos2 - 1;
-        } else {
-            mdpos[l] = pos2 + 5;
-        }
-        l++;
-    }
+//     while( (pos2 = md.indexOf('\n```', pos2 + 1)) != -1 ) { 
+//         if (l % 2 == 0){
+//             mdpos[l] = pos2 - 1;
+//         } else {
+//             mdpos[l] = pos2 + 5;
+//         }
+//         l++;
+//     }
 
-    for (var i = 0; i < mdpos.length; i++){
-        if (i % 2 == 0){
-            md = md.replace(md.substring(mdpos[i] - diff[i], mdpos[i+1] - diff[i]), '<pre class="code">'+md0.substring(rawpos[i], rawpos[i+1])+'</pre>');
-            var mdSubStringLength = mdpos[i+1] - mdpos[i];
-            var rawSubStringLength = rawpos[i+1] - rawpos[i] + '<pre class="code">'.length + '</pre>'.length;
-            diff[i+2] = diff[i] + mdSubStringLength - rawSubStringLength;
-        }
-    }
+//     for (var i = 0; i < mdpos.length; i++){
+//         if (i % 2 == 0){
+//             md = md.replace(md.substring(mdpos[i] - diff[i], mdpos[i+1] - diff[i]), '<pre class="code">'+md0.substring(rawpos[i], rawpos[i+1])+'</pre>');
+//             var mdSubStringLength = mdpos[i+1] - mdpos[i];
+//             var rawSubStringLength = rawpos[i+1] - rawpos[i] + '<pre class="code">'.length + '</pre>'.length;
+//             diff[i+2] = diff[i] + mdSubStringLength - rawSubStringLength;
+//         }
+//     }
 
-    //code
-    md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
+//     //code
+//     md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
     
-    //br
-    md = md.replace(/\n\n([^\n\n]+)\n\n/g, '\n<p>$1</p>');
+//     //br
+//     md = md.replace(/\n\n([^\n\n]+)\n\n/g, '\n<p>$1</p>');
 
-    return md;
-}
+//     return md;
+// }
 
 function getQueryStringObject() {
     var a = window.location.search.substr(1).split('&');
@@ -562,7 +562,7 @@ async function findNoteAgain(query, until, listEl, buttonEl, MISSKEYID='') {
             if (result[i].files.length == 0) {
                 listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div></a></div>'
                 if (result[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+result[i].cw+'</h1>'
-                document.querySelector('#collection'+i).innerHTML += parseMd(result[i].text)
+                document.querySelector('#collection'+i).innerHTML += marked.parse(result[i].text)
             } else {
                 listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><img src="'+result[i].files[0].url+'"></a></div>'
             }
@@ -615,7 +615,7 @@ async function findNoteAgain(query, until, listEl, buttonEl, MISSKEYID='') {
             if (result[i].files.length == 0) {
                 listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div></a></div>'
                 if (result[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+result[i].cw+'</h1>'
-                document.querySelector('#collection'+i).innerHTML += parseMd(result[i].text)
+                document.querySelector('#collection'+i).innerHTML += marked.parse(result[i].text)
             } else {
                 listEl.innerHTML += '<div class="collectionel"><a href="./?note='+result[i].id+'"><img src="'+result[i].files[0].url+'"></a></div>'
             }
@@ -812,7 +812,7 @@ async function parseYourJSON(json) {
         fetch(readmeUrl)
         .then(res => res.text())
         .then((out) => {
-            document.querySelector('#readme').innerHTML = parseMd(out)
+            document.querySelector('#readme').innerHTML = marked.parse(out)
         })
 
     } else if (page == 'info') {
@@ -1177,7 +1177,7 @@ async function parseYourJSON(json) {
                     if (notesRes[i].files.length == 0) {
                         document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                         if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
-                        document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                        document.querySelector('#collection'+i).innerHTML += marked.parse(notesRes[i].text)
                     } else {
                         document.querySelector('.collectionlist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                     }
@@ -1380,9 +1380,9 @@ async function parseYourJSON(json) {
                 document.querySelector('.songinfo').innerHTML += '<h1>'+LANG.SUMMARY+'</h1>'
                 document.querySelector('.songinfo').innerHTML += '<div >'+songInfo.summary+'<div>'
                 document.querySelector('.songinfo').innerHTML += '<h1>'+LANG.DESCRIPTION+'</h1>'
-                document.querySelector('.songinfo').innerHTML += '<div>'+parseMd(songInfo.description)+'<div>'
+                document.querySelector('.songinfo').innerHTML += '<div>'+marked.parse(songInfo.description)+'<div>'
                 document.querySelector('.songinfo').innerHTML += '<h1>'+LANG.LYRICS+'</h1>'
-                document.querySelector('.songinfo').innerHTML += '<div>'+parseMd(songInfo.lyrics)+'<div>'
+                document.querySelector('.songinfo').innerHTML += '<div>'+marked.parse(songInfo.lyrics)+'<div>'
                 
                 document.querySelector('.songinfo').innerHTML += '<h1>연관 캐릭터</h1>'
     
@@ -1510,7 +1510,7 @@ async function parseYourJSON(json) {
                 document.querySelector('.bookinfo').innerHTML += '<h1>'+LANG.SUMMARY+'</h1>'
                 document.querySelector('.bookinfo').innerHTML += '<div >'+bookInfo.summary+'<div>'
                 document.querySelector('.bookinfo').innerHTML += '<h1>'+LANG.DESCRIPTION+'</h1>'
-                document.querySelector('.bookinfo').innerHTML += '<div>'+parseMd(bookInfo.description)+'<div>'
+                document.querySelector('.bookinfo').innerHTML += '<div>'+marked.parse(bookInfo.description)+'<div>'
 
                 document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"><h1>'+LANG.CONTENTS+'</h1></div>'
                 document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
@@ -1569,7 +1569,7 @@ async function parseYourJSON(json) {
                             if (notesRes[i].files.length == 0) {
                                 document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                                 if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
-                                document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                                document.querySelector('#collection'+i).innerHTML += marked.parse(notesRes[i].text)
                             } else {
                                 document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                             }
@@ -1810,11 +1810,11 @@ async function parseYourJSON(json) {
                 document.querySelector('.worldlocation').innerHTML += '<h1>'+LANG.SUMMARY+'</h1>'
                 document.querySelector('.worldlocation').innerHTML += '<div class="cprofilesummary">'+worldPage.data.summary+'<div>'
                 document.querySelector('.worldlocation').innerHTML += '<h1>'+LANG.DESCRIPTION+'</h1>'
-                document.querySelector('.worldlocation').innerHTML += '<div class="cprofiledescription">'+parseMd(worldPage.data.description)+'<div>'
+                document.querySelector('.worldlocation').innerHTML += '<div class="cprofiledescription">'+marked.parse(worldPage.data.description)+'<div>'
                 var hideandsecret = true
                 document.querySelector('.worldlocation').innerHTML += '<h1>'+LANG.SECRET+'</h1>'
                 document.querySelector('.worldlocation').innerHTML += '<div><span id="hideSecret">'+LANG.FOLD+'</span>'
-                document.querySelector('.worldlocation').innerHTML += '<div class="cprofilesecret">'+parseMd(worldPage.data.secret)+'<div>'
+                document.querySelector('.worldlocation').innerHTML += '<div class="cprofilesecret">'+marked.parse(worldPage.data.secret)+'<div>'
     
                 document.querySelector('.worldlocation').innerHTML += '<h1>연관 정보</h1>'
     
@@ -2306,11 +2306,11 @@ async function parseYourJSON(json) {
                 document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.SUMMARY+'</h1>'
                 document.querySelector('.characterprofile').innerHTML += '<div class="cprofilesummary">'+cList[page].summary+'<div>'
                 document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.DESCRIPTION+'</h1>'
-                document.querySelector('.characterprofile').innerHTML += '<div class="cprofiledescription">'+parseMd(cList[page].description)+'<div>'
+                document.querySelector('.characterprofile').innerHTML += '<div class="cprofiledescription">'+marked.parse(cList[page].description)+'<div>'
                 var hideandsecret = true
                 document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.SECRET+'</h1>'
                 document.querySelector('.characterprofile').innerHTML += '<div><span id="hideSecret">'+LANG.FOLD+'</span>'
-                document.querySelector('.characterprofile').innerHTML += '<div class="cprofilesecret">'+parseMd(cList[page].secret)+'<div>'
+                document.querySelector('.characterprofile').innerHTML += '<div class="cprofilesecret">'+marked.parse(cList[page].secret)+'<div>'
     
                 document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.RELATEDCHARACTER+'</h1>'
     
@@ -2377,7 +2377,7 @@ async function parseYourJSON(json) {
                             if (notesRes[i].files.length == 0) {
                                 document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                                 if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
-                                document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                                document.querySelector('#collection'+i).innerHTML += marked.parse(notesRes[i].text)
                             } else {
                                 document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                             }
@@ -2529,7 +2529,7 @@ async function parseYourJSON(json) {
                         if (notesRes[i].files.length == 0) {
                             document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><div class="overflowhidden" id="collection'+i+'"></div><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                             if (notesRes[i].cw) document.querySelector('#collection'+i).innerHTML = '<h1>'+notesRes[i].cw+'</h1>'
-                            document.querySelector('#collection'+i).innerHTML += parseMd(notesRes[i].text)
+                            document.querySelector('#collection'+i).innerHTML += marked.parse(notesRes[i].text)
                         } else {
                             document.querySelector('.collectionworklist').innerHTML += '<div class="collectionel"><a href="./?note='+notesRes[i].id+'"><img src="'+notesRes[i].files[0].url+'"><div>'+notesRes[i].text.split('\n')[notesRes[i].text.split('\n').length - 1].split('@')[0]+'</div></a></div>'
                         }
@@ -2811,7 +2811,7 @@ async function parseYourJSON(json) {
                         document.querySelector('.collectionnote').innerHTML += '<div><img src="'+notesRes.files[i].url+'"></div>'
                     }
                 }
-                document.querySelector('.collectionnote').innerHTML += '<div class="noteContent">'+parseMd(notesRes.text)+'</div><hr>'
+                document.querySelector('.collectionnote').innerHTML += '<div class="noteContent">'+marked.parse(notesRes.text)+'</div><hr>'
                 document.querySelector('.collectionnote').innerHTML += '<div class="reactionList"></div>'
                 for (var i = 0; i<Object.keys(notesRes.reactions).length; i++) {
                     var emojiName = Object.keys(notesRes.reactions)[i]
