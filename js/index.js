@@ -970,6 +970,21 @@ async function parseYourJSON(json) {
             //내용
             document.querySelector('.editform').innerHTML += '<textarea id="cContent" name="cContent"></textarea>'
 
+            const el = document.querySelector('#cContent');
+            const stackedit = new Stackedit();
+          
+            // Open the iframe
+            stackedit.openFile({
+              name: 'Filename', // with an optional filename
+              content: {
+                text: document.querySelector('#cContent').value // and the Markdown content.
+              }
+            });
+
+            stackedit.on('fileChange', (file) => {
+                document.querySelector('#cContent').value = file.content.text;
+            });
+                        
             //파일첨부
             document.querySelector('.editform').innerHTML += '<div class="editordiv" id="imgUploader"><div id="imgUploadFrame0" onclick="deleteFile(this);"><span class="bold">'+LANG.ADDFILE+'</span> <span id="imgUpload">'+LANG.CLICK+'</span></div></div><input type="file" id="imgRealUpload" accept="image/*" style="display: none;">'
 
