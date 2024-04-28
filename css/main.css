@@ -580,7 +580,7 @@ select {
 
 .stackedit-iframe-container {
     /*max-height: 400px !important;*/
-    max-width: 500px !important;
+    max-width: 640px !important;
 }
 
 @media only screen and (max-width: 1000px) {
