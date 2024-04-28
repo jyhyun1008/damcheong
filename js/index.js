@@ -978,7 +978,7 @@ async function parseYourJSON(json) {
 
             //연관 캐릭터 이벤트 리스너
             document.querySelector('#addRelatedTo').addEventListener("click", (e) => {
-                document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedTo.count+'"><label id="cRelatedToLabel'+temporaryRelatedTo.count+'" for="cRelatedTo'+temporaryRelatedTo.count+'">'+(temporaryRelatedTo.count+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedTo.count+'" id="cRelatedTo'+temporaryRelatedTo.count+'" class="relatedTo" ></select></div>'
+                document.querySelector('#relatedTo').innerHTML += '<div class="multiLineInput" id="cRelatedToEditor'+temporaryRelatedTo.count+'"><label id="cRelatedToLabel'+temporaryRelatedTo.count+'" for="relatedTo'+temporaryRelatedTo.count+'">'+(temporaryRelatedTo.count+1)+' :</label> <select name="cRelatedTo'+temporaryRelatedTo.count+'" id="relatedTo'+temporaryRelatedTo.count+'" class="relatedTo" ></select></div>'
                 if (document.querySelector('#cType').value == ' #'+LANG.REFERENCE) {
                     for (var j=0; j<json.reference.length; j++) {
                         document.querySelector('#relatedTo'+temporaryRelatedTo.count).innerHTML += '<option value="'+j+'">'+json.reference[j].title+'</option>'
@@ -1252,7 +1252,7 @@ async function parseYourJSON(json) {
                 document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.LYRICS+'</h1><textarea id="cLyrics" name="cLyrics">'+songInfo.lyrics+'</textarea>'
 
                 //연관 캐릭터 (틀 생성)
-                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDTO+'</h1><span id="addRelatedTo">'+LANG.ADDLINE+'</span> · <span id="deleteRelatedTo">'+LANG.DELLINE+'</span></div><div id="relatedTo" class="editordiv"></div>'
+                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDCHARACTER+'</h1><span id="addRelatedTo">'+LANG.ADDLINE+'</span> · <span id="deleteRelatedTo">'+LANG.DELLINE+'</span></div><div id="relatedTo" class="editordiv"></div>'
 
                 //연관 캐릭터 (드롭다운)
                 temporaryRelatedTo.count = songInfo.relatedTo.length
@@ -1627,7 +1627,7 @@ async function parseYourJSON(json) {
                 document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.SECRET+'</h1><textarea id="cSecret" name="cSecret">'+worldPage.data.secret+'</textarea>'
 
                 //관계 (1차 틀 생성)
-                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDTO+'</h1><div><span id="addRelatedTo">'+LANG.ADDCATEGORY+'</span> · <span id="deleteRelatedTo">'+LANG.DELCATEGORY+'</span></div><br><div id="cRelatedTo"></div>'
+                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDCHARACTER+'</h1><div><span id="addRelatedTo">'+LANG.ADDCATEGORY+'</span> · <span id="deleteRelatedTo">'+LANG.DELCATEGORY+'</span></div><br><div id="cRelatedTo"></div>'
 
                 //관계 (2차 틀 생성 및 드롭다운)
                 var relatedToKey = Object.keys(worldPage.data.relatedTo)
@@ -1976,7 +1976,7 @@ async function parseYourJSON(json) {
                 document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.SECRET+'</h1><textarea id="cSecret" name="cSecret">'+cList[page].secret+'</textarea>'
 
                 //인간관계 (1차 틀 생성)
-                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDTO+'</h1><div><span id="addRelatedTo">'+LANG.ADDCATEGORY+'</span> · <span id="deleteRelatedTo">'+LANG.DELCATEGORY+'</span></div><br><div id="cRelatedTo"></div>'
+                document.querySelector('.editform').innerHTML += '<div class="editordiv"><h1>'+LANG.RELATEDCHARACTER+'</h1><div><span id="addRelatedTo">'+LANG.ADDCATEGORY+'</span> · <span id="deleteRelatedTo">'+LANG.DELCATEGORY+'</span></div><br><div id="cRelatedTo"></div>'
 
                 //인간관계 (2차 틀 생성 및 드롭다운)
                 var relatedToKey = Object.keys(cList[page].relatedTo)
@@ -2291,7 +2291,7 @@ async function parseYourJSON(json) {
                 document.querySelector('.characterprofile').innerHTML += '<div><span id="hideSecret">'+LANG.FOLD+'</span>'
                 document.querySelector('.characterprofile').innerHTML += '<div class="cprofilesecret">'+parseMd(cList[page].secret)+'<div>'
     
-                document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.RELATEDTO+'</h1>'
+                document.querySelector('.characterprofile').innerHTML += '<h1>'+LANG.RELATEDCHARACTER+'</h1>'
     
                 var relatedCategory = Object.keys(json.character.list[page].relatedTo)
                 for (var i = 0; i < relatedCategory.length; i++) {

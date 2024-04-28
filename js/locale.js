@@ -63,7 +63,8 @@ const koKR = {
 		"before": "",
 		"after": "번 책 편집"
 	},
-	"RELATEDTO": "관련 캐릭터",
+	"RELATEDCHARACTER": "연관 캐릭터",
+	"RELATEDTO": "연관 문서",
 	"SECRET": "비밀 설정",
 	"SUBCATEGORY": "세부분류",
 	"SUBTITLE": "부제목",
