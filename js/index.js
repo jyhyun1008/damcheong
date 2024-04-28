@@ -1049,7 +1049,7 @@ async function parseYourJSON(json) {
                 })
   
                 stackedit.on('fileChange', (file) => {
-                    document.querySelector('#cContent').value = file.content.text.replace(/\n(\w+)/gm, '\n\n$1')
+                    document.querySelector('#cContent').value = file.content.text.replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
                 })
 
             })
@@ -2456,7 +2456,7 @@ async function parseYourJSON(json) {
         .then((notesData) => {return notesData.json()})
         .then((notesRes) => {
 
-            if (notesRes.tags.includes(LANG.REFERENCE)) {
+            if (notesRes.tags.includes(LANG.REFERENCE) && mode != 'edit') {
 
                 var tagQuery = notesRes.tags[0]
 
@@ -2708,7 +2708,7 @@ async function parseYourJSON(json) {
                     })
       
                     stackedit.on('fileChange', (file) => {
-                        document.querySelector('#cContent').value = file.content.text.replace(/\n(\w+)/gm, '\n\n$1')
+                        document.querySelector('#cContent').value = file.content.text.replace(/\n([^\-\*\#0-9\>\|\=\s]+)/gm, '\n\n$1')
                     })
     
                 })
