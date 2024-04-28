@@ -2439,7 +2439,7 @@ async function parseYourJSON(json) {
         .then((notesData) => {return notesData.json()})
         .then((notesRes) => {
 
-            if (notesRes.tags.inclues(LANG.REFERENCE)) {
+            if (notesRes.tags.includes(LANG.REFERENCE)) {
 
                 document.querySelector('#popup-content').innerHTML += '<div id="collectiontitle"></div>'
                 document.querySelector('#popup-content').innerHTML += '<div class="collectionworklist"></div><div class="collectionworkqid"></div>'
