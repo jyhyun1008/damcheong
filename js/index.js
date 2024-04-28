@@ -1450,6 +1450,7 @@ async function parseYourJSON(json) {
                 //확인 버튼 이벤트리스너
                 document.querySelector('#confirm').addEventListener("click", (e) => {
 
+                    var cAvatar = document.querySelector('#cAvatar').value.replace(/\/g, '')
                     var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                     var cArtist = document.querySelector('#cArtist').value.replace(/\/g, '').replace(/\"/g, "'")
                     var cSummary = document.querySelector('#cSummary').value.replace(/\/g, '')
