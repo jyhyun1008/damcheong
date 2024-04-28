@@ -1049,7 +1049,7 @@ async function parseYourJSON(json) {
                 })
   
                 stackedit.on('fileChange', (file) => {
-                    document.querySelector('#cContent').value = file.content.text;
+                    document.querySelector('#cContent').value = file.content.text.replace(/\n(\w+)/gm, '\n\n$1')
                 })
 
             })
@@ -2708,7 +2708,7 @@ async function parseYourJSON(json) {
                     })
       
                     stackedit.on('fileChange', (file) => {
-                        document.querySelector('#cContent').value = file.content.text;
+                        document.querySelector('#cContent').value = file.content.text.replace(/\n(\w+)/gm, '\n\n$1')
                     })
     
                 })

@@ -316,18 +316,32 @@ img {
     padding: 5px 0 5px 40px;
 }
 
-li {
+ul li {
     list-style: none;
     padding: 5px 0 5px 40px;
+}
+
+ol li {
+    margin-left: 10px;
 }
 
 ul {
     padding-inline-start: 0;
 }
 
-li:before {
+ul li:before {
     content: "+";
     padding-right: 5px;
+}
+
+.noteContent table {
+    border-radius: 10px;
+    border: 1px solid white;
+    width: 100%;
+}
+
+.noteContent thead {
+    background-color: #ffffff33;
 }
 
 .chronology {
