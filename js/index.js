@@ -485,6 +485,39 @@ function nowHere(coord, year) {
     }
 }
 
+async function createWorks(title, type, rHash, mHash, visibility, localonly, content, file=null) {
+    var originNoteId = null
+    var fstNoteId = ''
+    var createNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/create'
+    for (var i=0; i<content.length; i++) {
+        var text = content[i]
+        if (i == content.length -1) {
+            text = content[i] + '\n\n#'+rHash+' #'+mHash+type+' @cabinetkey@a.gup.pe'
+        }
+        var createNoteParam = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                i: token,
+                cw: title,
+                text: text,
+                visibility: visibility,
+                localOnly: localonly,
+                renoteId: originNoteId,
+                fileIds: file
+            })
+        }
+        var data = await fetch(createNoteUrl, createNoteParam)
+        var result = await data.json()
+        originNoteId = result.createdNote.id
+        if (i == 0) fstNoteId = result.createdNote.id
+    }
+
+    return fstNoteId
+}
+
 function changeParam(MISSKEYID, query, limit, untilId='') {
     return new Promise((resolve) => {
         if (untilId == '') {
@@ -1055,7 +1088,7 @@ async function parseYourJSON(json) {
             })
 
             //확인버튼 이벤트리스너
-            document.querySelector('#confirm').addEventListener("click", (e) => {
+            document.querySelector('#confirm').addEventListener("click", async (e) => {
 
                 var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                 var cType = document.querySelector('#cType').value.replace(/\/g, '')
@@ -1076,50 +1109,21 @@ async function parseYourJSON(json) {
                     cLocalOnly = true
                     cVisibility = 'home'
                 }
-                var cContent = document.querySelector('#cContent').value.replace(/\/g, '')
-                var cFile = []
-                for (var i=0; i < Math.min(document.querySelectorAll('.imgUploaded').length, 16); i++) {
-                    cFile.push(document.querySelector('#imgUploaded'+i).innerText)
+                var cContent = document.querySelector('#cContent').value.replace(/\/g, '').match(/.{1,2900}/g)
+                var cFile = null
+                if (document.querySelectorAll('.imgUploaded').length > 0 ){
+                    cFile = []
+                    for (var i=0; i < Math.min(document.querySelectorAll('.imgUploaded').length, 16); i++) {
+                        cFile.push(document.querySelector('#imgUploaded'+i).innerText)
+                    }
                 }
                 
-                var createNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/create'
-                var createNoteParam
-                if (cFile.length > 0) {
-                    createNoteParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            i: token,
-                            cw: cTitle,
-                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
-                            visibility: cVisibility,
-                            localOnly: cLocalOnly,
-                            fileIds: cFile
-                        })
-                    }
-                } else {
-                    createNoteParam = {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            i: token,
-                            cw: cTitle,
-                            text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
-                            visibility: cVisibility,
-                            localOnly: cLocalOnly,
-                        })
-                    }
-                }
-                fetch(createNoteUrl, createNoteParam)
-                .then((noteData) => { return noteData.json() })
-                .then((noteRes) => {
+                var newNoteId = await createWorks(cTitle, cType, cRelatedText, json.info.mainHashtag, cVisibility, cLocalOnly, cContent, cFile)
+
+                if (newNoteId) {
                     isSaved = true
-                    location.href = './?note='+noteRes.createdNote.id
-                })
+                    location.href = './?note='+newNoteId
+                }
             })
         } else {
 
