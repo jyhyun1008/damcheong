@@ -529,8 +529,9 @@ async function fetchReply(noteId, replyCount, mid, returnText = '') {
             }
         }
         if (result.length == 0 || !myReply) return returnText
+    } else {
+        return returnText
     }
-
 }
 
 async function createWorks(title, type, rHash, mHash, visibility, localonly, content, file=null) {
