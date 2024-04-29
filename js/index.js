@@ -485,6 +485,54 @@ function nowHere(coord, year) {
     }
 }
 
+async function fetchReply(noteId, replyCount, mid, returnText = '') {
+    var findNotesUrl = 'https://'+MISSKEYHOST+'/api/notes/replies'
+    var findNotesParam
+
+    if (replyCount > 0) {
+        if (isLogin) {
+            findNotesParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    noteId: noteId,
+                })
+            }
+        } else {
+            findNotesParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    noteId: noteId,
+                })
+            }
+        }
+    
+        var data = await fetch(findNotesUrl, findNotesParam)
+        var result = await data.json()
+        var myReply
+        for (var i=0; i<result.length; i++) {
+            if (result[i].userId == mid) {
+                myReply = result[i]
+                var newText = returnText + myReply.text
+                if (myReply.repliesCount > 0) {
+                    var newNewText = await fetchReply(myReply.id, myReply.repliesCount, mid, returnText + result[i].text)
+                    newText = newText + newNewText
+                }
+                console.log(newText)
+                return newText
+            }
+        }
+        if (result.length == 0 || !myReply) return returnText
+    }
+
+}
+
 async function createWorks(title, type, rHash, mHash, visibility, localonly, content, file=null) {
     var originNoteId = null
     var fstNoteId = ''
@@ -2489,7 +2537,14 @@ async function parseYourJSON(json) {
         }
         fetch(findNotesUrl, findNotesParam)
         .then((notesData) => {return notesData.json()})
-        .then((notesRes) => {
+        .then(async (notesRes) => {
+
+            var notesWOtags = notesRes.text.split('\n\n')
+            notesWOtags.pop()
+            notesWOtags = notesWOtags.join('\n\n')
+            console.log(notesWOtags)
+            var plainText = await fetchReply(notesRes.id, notesRes.repliesCount, MISSKEYID, notesWOtags)
+
 
             if (notesRes.tags.includes(LANG.REFERENCE) && mode != 'edit') {
 
@@ -2653,9 +2708,7 @@ async function parseYourJSON(json) {
                 }
     
                 //내용
-                var noteText = notesRes.text.split('\n\n')
-                noteText.pop()
-                noteText = noteText.join('\n\n')
+                var noteText = plainText
                 document.querySelector('.editform').innerHTML += '<textarea id="cContent" name="cContent">'+noteText+'</textarea>'
     
                 //파일첨부
@@ -2749,7 +2802,7 @@ async function parseYourJSON(json) {
                 })
 
                 //확인버튼 이벤트리스너
-                document.querySelector('#confirm').addEventListener("click", (e) => {
+                document.querySelector('#confirm').addEventListener("click", async (e) => {
     
                     var cTitle = document.querySelector('#cTitle').value.replace(/\/g, '')
                     var cType = document.querySelector('#cType').value.replace(/\/g, '')
@@ -2770,69 +2823,20 @@ async function parseYourJSON(json) {
                         cLocalOnly = true
                         cVisibility = 'home'
                     }
-                    var cContent = document.querySelector('#cContent').value.replace(/\/g, '')
-                    var cFile = []
-                    for (var i=0; i < Math.min(document.querySelectorAll('.imgUploaded').length, 16); i++) {
-                        cFile.push(document.querySelector('#imgUploaded'+i).innerText)
+                    var cContent = document.querySelector('#cContent').value.replace(/\/g, '').match(/[\s\S]{1,2900}/g)
+                    var cFile = null
+                    if (document.querySelectorAll('.imgUploaded').length > 0 ){
+                        for (var i=0; i < Math.min(document.querySelectorAll('.imgUploaded').length, 16); i++) {
+                            cFile.push(document.querySelector('#imgUploaded'+i).innerText)
+                        }
                     }
                     
-                    var createNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/create'
-                    var createNoteParam
-                    if (cFile.length > 0) {
-                        createNoteParam = {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                i: token,
-                                cw: cTitle,
-                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
-                                visibility: cVisibility,
-                                localOnly: cLocalOnly,
-                                fileIds: cFile
-                            })
-                        }
-                    } else {
-                        createNoteParam = {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                i: token,
-                                cw: cTitle,
-                                text: cContent+'\n\n#'+cRelatedText+' #'+json.info.mainHashtag+cType+' @cabinetkey@a.gup.pe',
-                                visibility: cVisibility,
-                                localOnly: cLocalOnly,
-                            })
-                        }
+                    var newNoteId = await createWorks(cTitle, cType, cRelatedText, json.info.mainHashtag, cVisibility, cLocalOnly, cContent, cFile)
+
+                    if (newNoteId) {
+                        isSaved = true
+                        location.href = './?note='+newNoteId
                     }
-                    fetch(createNoteUrl, createNoteParam)
-                    .then((noteData) => { return noteData.json() })
-                    .then((noteRes) => {
-
-                        var deleteNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/delete'
-                        var deleteNoteParam = {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                i: token,
-                                noteId: note
-                            })
-                        }
-                        fetch(deleteNoteUrl, deleteNoteParam)
-                        .then((res) => { 
-                            isSaved = true
-                            location.href = './?note='+noteRes.createdNote.id
-                        })
-                    })
-                })
-
-                document.querySelector('#cancel').addEventListener("click", (e) => {
-                    location.href = './?page='+page
                 })
             } else {
 
@@ -2846,7 +2850,7 @@ async function parseYourJSON(json) {
                         document.querySelector('.collectionnote').innerHTML += '<div><img src="'+notesRes.files[i].url+'"></div>'
                     }
                 }
-                document.querySelector('.collectionnote').innerHTML += '<div class="noteContent">'+marked.parse(notesRes.text)+'</div><hr>'
+                document.querySelector('.collectionnote').innerHTML += '<div class="noteContent">'+marked.parse(plainText)+'</div><hr>'
                 document.querySelector('.collectionnote').innerHTML += '<div class="reactionList"></div>'
                 for (var i = 0; i<Object.keys(notesRes.reactions).length; i++) {
                     var emojiName = Object.keys(notesRes.reactions)[i]
@@ -2875,22 +2879,37 @@ async function parseYourJSON(json) {
                 }
                 document.querySelector('.collectionnote').innerHTML += '<div class="replyList"></div>'
                 var findReplysUrl = 'https://'+MISSKEYHOST+'/api/notes/replies'
-                var findReplysParam = {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        noteId: note,
-                    })
+                if (isLogin) {
+                    var findReplysParam = {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            i: token,
+                            noteId: note,
+                        })
+                    }
+                } else {
+                    var findReplysParam = {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            noteId: note,
+                        })
+                    }
                 }
                 fetch(findReplysUrl, findReplysParam)
                 .then((replyData) => {return replyData.json()})
                 .then((replyRes) => {
-                    for (var i = 0; i<Object.keys(notesRes.reactions).length; i++) {
-                        document.querySelector('.replyList').innerHTML += '<hr><div class="replyel" id="replyid'+i+'"></div>'
-                        document.querySelector('#replyid'+i).innerHTML += '<div>'+replyRes[i].text+'</div>'
-                        document.querySelector('#replyid'+i).innerHTML += '<div class="replyProfile"><span> ー by</span><img class="emoji" src="'+replyRes[i].user.avatarUrl+'"><span>'+replyRes[i].user.name.replace(/\:([^\:\s]+)\:/g, '').replace(/\s\s/g, ' ')+'</span><span class="bold" style="font-size: 0.8em;"><a href="https://'+MISSKEYHOST+'/notes/'+replyRes[i].id+'">'+LANG.READONREMOTE+'</a></span></div>'
+                    for (var i = 0; i<replyRes.length; i++) {
+                        if (replyRes[i].userId != MISSKEYID) {
+                            document.querySelector('.replyList').innerHTML += '<hr><div class="replyel" id="replyid'+i+'"></div>'
+                            document.querySelector('#replyid'+i).innerHTML += '<div>'+replyRes[i].text+'</div>'
+                            document.querySelector('#replyid'+i).innerHTML += '<div class="replyProfile"><span> ー by</span><img class="emoji" src="'+replyRes[i].user.avatarUrl+'"><span>'+replyRes[i].user.name.replace(/\:([^\:\s]+)\:/g, '').replace(/\s\s/g, ' ')+'</span><span class="bold" style="font-size: 0.8em;"><a href="https://'+MISSKEYHOST+'/notes/'+replyRes[i].id+'">'+LANG.READONREMOTE+'</a></span></div>'
+                        }
                     }
                 })
             }
