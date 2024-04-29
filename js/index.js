@@ -506,7 +506,7 @@ async function createWorks(title, type, rHash, mHash, visibility, localonly, con
                     text: text,
                     visibility: visibility,
                     localOnly: localonly,
-                    renoteId: originNoteId
+                    replyId: originNoteId
                 })
             }
         } else if (!file && !originNoteId) {
@@ -1139,7 +1139,7 @@ async function parseYourJSON(json) {
                     cLocalOnly = true
                     cVisibility = 'home'
                 }
-                var cContent = document.querySelector('#cContent').value.replace(/\/g, '').match(/.{1,2900}/g)
+                var cContent = document.querySelector('#cContent').value.replace(/\/g, '').match(/[\s\S]{1,2900}/g)
                 var cFile = null
                 if (document.querySelectorAll('.imgUploaded').length > 0 ){
                     cFile = []
