@@ -2835,8 +2835,22 @@ async function parseYourJSON(json) {
                     var newNoteId = await createWorks(cTitle, cType, cRelatedText, json.info.mainHashtag, cVisibility, cLocalOnly, cContent, cFile)
 
                     if (newNoteId) {
-                        isSaved = true
-                        location.href = './?note='+newNoteId
+                        var deleteNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/delete'
+                        var deleteNoteParam = {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                i: token,
+                                noteId: note
+                            })
+                        }
+                        fetch(deleteNoteUrl, deleteNoteParam)
+                        .then((res) => { 
+                            isSaved = true
+                            location.href = './?note='+newNoteId
+                        })
                     }
                 })
             } else {
