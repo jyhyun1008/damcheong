@@ -491,23 +491,53 @@ async function createWorks(title, type, rHash, mHash, visibility, localonly, con
     var createNoteUrl = 'https://'+MISSKEYHOST+'/api/notes/create'
     for (var i=0; i<content.length; i++) {
         var text = content[i]
-        if (i == content.length -1) {
+        if (i == 0) {
             text = content[i] + '\n\n#'+rHash+' #'+mHash+type+' @cabinetkey@a.gup.pe'
         }
-        var createNoteParam = {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                i: token,
-                cw: title,
-                text: text,
-                visibility: visibility,
-                localOnly: localonly,
-                renoteId: originNoteId,
-                fileIds: file
-            })
+        if (originNoteId) {
+            var createNoteParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    cw: title,
+                    text: text,
+                    visibility: visibility,
+                    localOnly: localonly,
+                    renoteId: originNoteId
+                })
+            }
+        } else if (!file && !originNoteId) {
+            var createNoteParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    cw: title,
+                    text: text,
+                    visibility: visibility,
+                    localOnly: localonly,
+                })
+            }
+        } else if (file && !originNoteId) {
+            var createNoteParam = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    i: token,
+                    cw: title,
+                    text: text,
+                    visibility: visibility,
+                    localOnly: localonly,
+                    fileIds: file
+                })
+            }
         }
         var data = await fetch(createNoteUrl, createNoteParam)
         var result = await data.json()
