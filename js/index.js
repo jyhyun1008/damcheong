@@ -521,7 +521,7 @@ async function fetchReply(noteId, replyCount, mid, returnText = '') {
                 myReply = result[i]
                 var newText = returnText + myReply.text
                 if (myReply.repliesCount > 0) {
-                    var newNewText = await fetchReply(myReply.id, myReply.repliesCount, mid, returnText + result[i].text)
+                    var newNewText = await fetchReply(myReply.id, myReply.repliesCount, mid, '')
                     newText = newText + newNewText
                 }
                 console.log(newText)
